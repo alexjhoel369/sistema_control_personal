@@ -1,0 +1,20 @@
+{% extends 'director/base.html' %}
+
+{% block title %} CREAR MATERIA {% endblock %}
+
+{% block content %}
+<h1>Registrar nueva materia</h1>
+
+<form action="{{ url_for('materia_director.create_director') }}" method="POST">
+    <div class="mb-3">
+        <label class="form-label">Nombre de la materia</label>
+        <input type="text" class="form-control" name="nombre" required>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Descripción</label>
+        <textarea class="form-control" name="descripcion" rows="3"></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Crear materia</button>
+    <a href="{{ url_for('materia_director.index_director') }}" class="btn btn-secondary">Cancelar</a>
+</form>
+{% endblock %}

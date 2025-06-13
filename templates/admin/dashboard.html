@@ -1,0 +1,62 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Dashboard - Admin{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+  <h1 class="text-center">Bienvenido al Panel de Administración</h1>
+  <div class="row mt-4">
+    <!-- Módulos implementados -->
+    <div class="col-md-4 mb-3">
+      <a href="{{ url_for('admin.roles') }}" class="btn btn-primary w-100 py-3">
+        <i class="bi bi-people-fill me-2"></i>Gestionar Roles
+      </a>
+    </div>
+    <div class="col-md-4 mb-3">
+      <a href="{{ url_for('admin.usuarios') }}" class="btn btn-primary w-100 py-3">
+        <i class="bi bi-person-gear me-2"></i>Gestionar Usuarios
+      </a>
+    </div>
+    <div class="col-md-4 mb-3">
+      <a href="{{ url_for('admin.cargos') }}" class="btn btn-primary w-100 py-3">
+        <i class="bi bi-briefcase-fill me-2"></i>Gestionar Cargos
+      </a>
+    </div>
+    <div class="col-md-4 mb-3">
+      <a href="{{ url_for('admin.empleados') }}" class="btn btn-primary w-100 py-3">
+        <i class="bi bi-person-vcard-fill me-2"></i>Gestionar Empleados
+      </a>
+    </div>
+    <div class="col-md-4 mb-3">
+      <a href="{{ url_for('admin.asistencias') }}" class="btn btn-primary w-100 py-3">
+        <i class="bi bi-calendar-check-fill me-2"></i>Gestionar Asistencias
+      </a>
+    </div>
+    <div class="col-md-4 mb-3">
+      <a href="{{ url_for('admin.permisos') }}" class="btn btn-primary w-100 py-3">
+        <i class="bi bi-file-earmark-text-fill me-2"></i>Gestionar Permisos
+      </a>
+    </div>
+    <div class="col-md-4 mb-3">
+      <a href="{{ url_for('admin.comunicados') }}" class="btn btn-primary w-100 py-3">
+        <i class="bi bi-megaphone-fill me-2"></i>Gestionar Comunicados
+      </a>
+    </div>
+    <div class="col-md-4 mb-3">
+      <a href="{{ url_for('admin.materias') }}" class="btn btn-primary w-100 py-3">
+        <i class="bi bi-journal-bookmark-fill me-2"></i>Gestionar Materias
+      </a>
+    </div>
+    <div class="col-md-4 mb-3">
+      <a href="{{ url_for('admin.materias_asignadas') }}" class="btn btn-primary w-100 py-3">
+        <i class="bi bi-journal-check me-2"></i>Materias Asignadas
+      </a>
+    </div>
+    <div class="col-md-4 mb-3">
+      <a href="{{ url_for('admin.historiales') }}" class="btn btn-primary w-100 py-3">
+        <i class="bi bi-clock-history me-2"></i>Historial Laboral
+      </a>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,46 @@
+{% extends 'admin/base.html' %}
+
+{% block title %}Permisos{% endblock %}
+
+{% block content %}
+<h1 class="mb-4">Lista de Permisos</h1>
+
+<a href="{{ url_for('permiso.create') }}" class="btn btn-success mb-3">Nuevo permiso</a>
+
+<table class="table table-striped table-bordered table-hover">
+    <thead class="thead-dark">
+        <tr>
+            <th>ID</th>
+            <th>Fecha Solicitud</th>
+            <th>Fecha Inicio</th>
+            <th>Fecha Fin</th>
+            <th>Motivo</th>
+            <th>Estado</th>
+            <th>Empleado</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for permiso in permisos %}
+        <tr>
+            <td>{{ permiso.id }}</td>
+            <td>{{ permiso.fecha_solicitud }}</td>
+            <td>{{ permiso.fecha_inicio }}</td>
+            <td>{{ permiso.fecha_fin }}</td>
+            <td>{{ permiso.motivo }}</td>
+            <td>{{ permiso.estado or 'Pendiente' }}</td>
+            <td>{{ permiso.empleado.nombre }}</td>
+            <td>
+                <a href="{{ url_for('permiso.edit', id=permiso.id) }}" class="btn btn-warning btn-sm">Editar</a>
+                <a href="{{ url_for('permiso.delete', id=permiso.id) }}" class="btn btn-danger btn-sm ml-2"
+                   onclick="return confirm('¿Seguro que deseas eliminar este permiso?')">Eliminar</a>
+            </td>
+        </tr>
+        {% else %}
+        <tr>
+            <td colspan="8">No hay permisos registrados.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

@@ -1,0 +1,105 @@
+{% extends 'director/base.html' %}
+
+{% block title %}Historial Laboral de {{ empleado.nombre }}{% endblock %}
+
+{% block content %}
+<h1 class="mb-4">Historial laboral de {{ empleado.nombre }} {{ empleado.apellido }}</h1>
+
+<div class="card p-4 mb-4 bg-light border">
+    <p><strong>CI:</strong> {{ empleado.ci }}</p>
+    <p><strong>Email:</strong> {{ empleado.email }}</p>
+    <p><strong>Teléfono:</strong> {{ empleado.telefono }}</p>
+    <p><strong>Fecha de Registro:</strong> {{ empleado.fecha.strftime('%Y-%m-%d') }}</p>
+    <p><strong>Cargo:</strong> {{ empleado.cargo.cargo if empleado.cargo else 'Sin cargo asignado' }}</p>
+</div>
+
+<h3>Usuarios vinculados:</h3>
+{% if usuarios %}
+<ul>
+    {% for user in usuarios %}
+    <li>{{ user.username }}</li>
+    {% endfor %}
+</ul>
+{% else %}
+<p>No hay usuarios vinculados.</p>
+{% endif %}
+
+<h3>Materias asignadas:</h3>
+{% if materias_asignadas %}
+<ul>
+    {% for materia_asignada in materias_asignadas %}
+        <li>{{ materia_asignada.materia.nombre if materia_asignada.materia else 'Materia sin nombre' }}</li>
+    {% endfor %}
+</ul>
+{% else %}
+<p>No hay materias asignadas.</p>
+{% endif %}
+
+<h3>Asistencias registradas:</h3>
+{% if asistencias %}
+<ul>
+    {% for asistencia in asistencias %}
+        <li>
+          Fecha: {{ asistencia.fecha.strftime('%Y-%m-%d') if asistencia.fecha else 'Sin fecha' }},
+          Entrada: {{ asistencia.hora_entrada.strftime('%H:%M') if asistencia.hora_entrada else 'N/A' }},
+          Salida: {{ asistencia.hora_salida.strftime('%H:%M') if asistencia.hora_salida else 'N/A' }},
+          Empleado: {{ asistencia.empleado.nombre }} {{ asistencia.empleado.apellido }}
+        </li>
+    {% endfor %}
+</ul>
+{% else %}
+<p>No hay asistencias registradas.</p>
+{% endif %}
+
+<h3>Permisos:</h3>
+{% if permisos %}
+<ul>
+    {% for permiso in permisos %}
+        <li>
+            Fecha Solicitud: {{ permiso.fecha_solicitud.strftime('%Y-%m-%d') }},
+            Periodo: {{ permiso.fecha_inicio.strftime('%Y-%m-%d') }} a {{ permiso.fecha_fin.strftime('%Y-%m-%d') }},
+            Motivo: {{ permiso.motivo }},
+            Estado: {{ permiso.estado if permiso.estado else 'Pendiente' }},
+            Empleado: {{ permiso.empleado.nombre }} {{ permiso.empleado.apellido }}
+        </li>
+    {% endfor %}
+</ul>
+{% else %}
+<p>No hay permisos registrados.</p>
+{% endif %}
+
+<h3>Historial Laboral:</h3>
+{% if historial_laboral %}
+<table class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>Cargo</th>
+            <th>Fecha Inicio</th>
+            <th>Fecha Fin</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for h in historial_laboral %}
+        <tr>
+            <td>{{ h.cargo }}</td>
+            <td>{{ h.fecha_inicio.strftime('%Y-%m-%d') if h.fecha_inicio else 'Sin fecha' }}</td>
+            <td>{{ h.fecha_fin.strftime('%Y-%m-%d') if h.fecha_fin else 'Actual' }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p>No hay historial laboral registrado.</p>
+{% endif %}
+
+<a href="#" onclick="window.print();" class="btn btn-primary no-print">Imprimir</a>
+<a href="{{ url_for('historial_director.index_director') }}" class="btn btn-secondary no-print">Volver</a>
+
+<style>
+  @media print {
+    .no-print {
+      display: none !important;
+    }
+  }
+</style>
+{% endblock %}

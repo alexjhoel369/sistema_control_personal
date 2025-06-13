@@ -1,0 +1,34 @@
+{% extends "personal/base.html" %}
+
+{% block title %}Materias Asignadas{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+  <h3 class="mb-4">📘 Materias Asignadas</h3>
+
+  {% if asignaciones %}
+    <table class="table table-bordered table-hover">
+      <thead class="table-dark">
+        <tr>
+          <th>#</th>
+          <th>Materia</th>
+          <th>Gestión</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for asignacion in asignaciones %}
+          <tr>
+            <td>{{ loop.index }}</td>
+            <td>{{ asignacion.materia.nombre }}</td>
+            <td>{{ asignacion.gestion }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <div class="alert alert-info">No tienes materias asignadas actualmente.</div>
+  {% endif %}
+
+  <a href="{{ url_for('personal.dashboard') }}" class="btn btn-secondary mt-3">Volver al panel</a>
+</div>
+{% endblock %}

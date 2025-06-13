@@ -1,0 +1,54 @@
+{% extends "home/base.html" %}
+
+{% block title %}Registro{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="text-center text-light mb-4">Registro</h1>
+
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <form method="post" action="{{ url_for('auth.register') }}">
+
+                <!-- Datos de Usuario -->
+                <div class="mb-3">
+                    <label for="username" class="form-label text-light">Usuario</label>
+                    <input type="text" class="form-control" id="username" name="username" required>
+                </div>
+                <div class="mb-3">
+                    <label for="password" class="form-label text-light">Contraseña</label>
+                    <input type="password" class="form-control" id="password" name="password" required>
+                </div>
+
+                <!-- Datos del Empleado -->
+                <div class="mb-3">
+                    <label for="nombre" class="form-label text-light">Nombre</label>
+                    <input type="text" class="form-control" id="nombre" name="nombre" required>
+                </div>
+                <div class="mb-3">
+                    <label for="apellido" class="form-label text-light">Apellido</label>
+                    <input type="text" class="form-control" id="apellido" name="apellido" required>
+                </div>
+                <div class="mb-3">
+                    <label for="ci" class="form-label text-light">Cédula de Identidad</label>
+                    <input type="text" class="form-control" id="ci" name="ci" required>
+                </div>
+                <div class="mb-3">
+                    <label for="email" class="form-label text-light">Email</label>
+                    <input type="email" class="form-control" id="email" name="email" required>
+                </div>
+                <div class="mb-3">
+                    <label for="telefono" class="form-label text-light">Teléfono</label>
+                    <input type="text" class="form-control" id="telefono" name="telefono" required>
+                </div>
+                <div class="mb-3">
+                    <label for="fecha" class="form-label text-light">Fecha de Nacimiento</label>
+                    <input type="date" class="form-control" id="fecha" name="fecha" required>
+                </div>
+
+                <button type="submit" class="btn btn-danger w-100">Registrar</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

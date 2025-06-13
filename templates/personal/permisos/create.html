@@ -1,0 +1,31 @@
+{% extends 'personal/base.html' %}
+{% block title %}Nuevo Permiso{% endblock %}
+
+{% block content %}
+<h1>Solicitar nuevo permiso</h1>
+
+<form method="POST">
+    <div class="mb-3">
+        <label for="fecha_solicitud" class="form-label">Fecha de solicitud</label>
+        <input type="date" class="form-control" id="fecha_solicitud" name="fecha_solicitud" value="{{ fecha_actual }}" required>
+    </div>
+
+    <div class="mb-3">
+        <label for="fecha_inicio" class="form-label">Fecha de inicio</label>
+        <input type="date" class="form-control" id="fecha_inicio" name="fecha_inicio" required>
+    </div>
+
+    <div class="mb-3">
+        <label for="fecha_fin" class="form-label">Fecha de finalización</label>
+        <input type="date" class="form-control" id="fecha_fin" name="fecha_fin" required>
+    </div>
+
+    <div class="mb-3">
+        <label for="motivo" class="form-label">Motivo</label>
+        <textarea class="form-control" id="motivo" name="motivo" rows="3" required></textarea>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Solicitar permiso</button>
+    <a href="{{ url_for('personal.permisos') }}" class="btn btn-secondary">Cancelar</a>
+</form>
+{% endblock %}

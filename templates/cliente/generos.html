@@ -1,0 +1,56 @@
+{% extends "cliente/base.html" %}
+
+{% block title %}Películas por Género{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="text-center my-4 text-light">Películas por Género</h1>
+
+    <!-- Formulario de selección de género -->
+    <form method="get" action="{{ url_for('client.generos') }}" class="mb-4">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <label for="genero_id" class="form-label text-light">Selecciona un género:</label>
+                <select class="form-select bg-dark text-light border-light" id="genero_id" name="genero_id">
+                    <option value="">-- Seleccionar --</option>
+                    {% for genero in generos %}
+                    <option value="{{ genero.id }}">{{ genero.genero }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-2 d-flex align-items-end">
+                <button type="submit" class="btn btn-danger w-100">Filtrar</button>
+            </div>
+        </div>
+    </form>
+
+    <!-- Grid de películas -->
+    <div class="movie-grid">
+        {% for pelicula in peliculas %}
+        <div class="movie-card">
+            <div class="movie-image">
+                {% if pelicula.imagen %}
+                <img src="{{ url_for('static', filename='uploads/' + pelicula.imagen.split('/')[-1]) }}"
+                    alt="Imagen de {{ pelicula.titulo }}">
+                {% else %}
+                <img src="{{ url_for('static', filename='images/default_movie.jpg') }}" alt="Imagen por defecto">
+                {% endif %}
+            </div>
+            <div class="movie-info">
+                <h5>{{ pelicula.titulo }}</h5>
+                <p>{{ pelicula.descripcion }}</p>
+                <p><span class="text-info">Idioma:</span> {{ pelicula.idioma }}</p>
+                <p><span class="text-warning">Precio:</span> ${{ pelicula.precio|round(2) }}</p>
+                <form action="{{ url_for('venta.create_from_index') }}" method="POST">
+                    <input type="hidden" name="pelicula_id" value="{{ pelicula.id }}">
+                    <button type="submit" class="btn btn-danger">Comprar</button>
+                </form>
+            </div>
+        </div>
+        {% else %}
+        <!-- Mensaje cuando no hay películas -->
+        <p class="text-center text-light mt-4">No hay películas disponibles para el género seleccionado.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

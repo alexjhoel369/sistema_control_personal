@@ -1,0 +1,60 @@
+{% extends "home/base.html" %}
+
+{% block title %}Inicio | Sistema de Control Personal{% endblock %}
+
+{% block content %}
+<div class="text-center text-light py-5">
+    <h1 class="display-4 fw-bold">Sistema de Control Personal</h1>
+    <p class="lead">Instituto Tecnológico Brasil - Bolivia</p>
+    <hr class="bg-light w-25 mx-auto">
+    <p class="mt-4">Gestión de personal, asistencia, materias, comunicados y permisos institucionales.</p>
+    <a href="{{ url_for('auth.login') }}" class="btn btn-primary mt-3 px-4">Ingresar al Sistema</a>
+</div>
+
+<div class="row mt-5">
+  <!-- ADMINISTRADOR -->
+  <div class="col-md-4">
+    <div class="card bg-dark text-light h-100 shadow">
+      <div class="card-body">
+        <h4 class="card-title text-success">🟢 Administrador (RRHH)</h4>
+        <ul>
+          <li>Gestión total de empleados</li>
+          <li>Control de permisos, usuarios y roles</li>
+          <li>Reportes, historial, asistencias</li>
+          <li>Envía comunicados generales</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- DIRECTOR -->
+  <div class="col-md-4">
+    <div class="card bg-dark text-light h-100 shadow">
+      <div class="card-body">
+        <h4 class="card-title text-primary">🔵 Director Académico</h4>
+        <ul>
+          <li>Visualiza personal académico</li>
+          <li>Asigna materias a docentes</li>
+          <li>Consulta historial docente</li>
+          <li>Envía comunicados a docentes</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- PERSONAL -->
+  <div class="col-md-4">
+    <div class="card bg-dark text-light h-100 shadow">
+      <div class="card-body">
+        <h4 class="card-title text-warning">🟡 Docente / Personal</h4>
+        <ul>
+          <li>Marca su asistencia</li>
+          <li>Consulta su historial</li>
+          <li>Solicita permisos</li>
+          <li>Lee comunicados recibidos</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

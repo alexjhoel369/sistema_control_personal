@@ -1,0 +1,94 @@
+{% extends "personal/base.html" %}
+
+{% block title %}Panel - Personal{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+
+  <!-- Encabezado -->
+  <div class="text-center mb-4">
+    <h2>Bienvenido Lic. {{ empleado.nombre }} {{ empleado.apellido }}</h2>
+    <p>---- {{ rol_usuario }} ----</p>
+    <p>Fecha actual: {{ fecha_actual }}</p>
+    <a href="{{ url_for('auth.logout') }}" class="btn btn-danger btn-sm">Cerrar sesión</a>
+  </div>
+
+  <!-- Módulos Disponibles -->
+  <div class="row">
+
+    <!-- Mi perfil -->
+    <div class="col-md-6 mt-3">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">👤 Mi Perfil</h5>
+          <p class="card-text">Consultar tu información personal, CV y historial.</p>
+          <a href="{{ url_for('personal.mi_perfil') }}" class="btn btn-secondary w-100">Ver Perfil</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Asistencias -->
+    <div class="col-md-6 mt-3">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">🕒 Asistencias</h5>
+          <p class="card-text">Marcar entrada/salida y consultar historial.</p>
+          <a href="{{ url_for('personal.marcar_asistencia') }}" class="btn btn-success w-100 mb-2">Marcar Asistencia</a>
+          <a href="{{ url_for('personal.asistencia') }}" class="btn btn-outline-success w-100">Ver Historial</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Permisos -->
+    <div class="col-md-6 mt-3">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">📝 Permisos</h5>
+          <p class="card-text">Solicitar permisos/licencias y consultar estado.</p>
+          <a href="{{ url_for('personal.crear_permiso') }}" class="btn btn-primary w-100 mb-2">Solicitar Permiso</a>
+          <a href="{{ url_for('personal.permisos') }}" class="btn btn-outline-primary w-100">Ver Permisos</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Materias Asignadas -->
+    {% if rol_usuario.strip().lower() == "personal" %}
+    <div class="col-md-6 mt-3">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">📘 Materias Asignadas</h5>
+          <p class="card-text">Consulta tus materias asignadas y carga horaria.</p>
+          <a href="{{ url_for('personal.materias_asignadas') }}" class="btn btn-primary">
+            📘 Ver Materias Asignadas
+          </a>
+        </div>
+      </div>
+    </div>
+    {% endif %}
+
+    <!-- Comunicados -->
+    <div class="col-md-6 mt-3">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">📬 Comunicados</h5>
+          <p class="card-text">Leer comunicados oficiales dirigidos a tu rol.</p>
+          <a href="{{ url_for('personal.comunicados') }}" class="btn btn-info w-100">Ver Comunicados</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Historial laboral -->
+    <div class="col-md-6 mt-3">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">📄 Historial Laboral</h5>
+          <p class="card-text">Consulta tu historial laboral completo.</p>
+          <a href="{{ url_for('personal.historial') }}" class="btn btn-secondary w-100">Ver Historial</a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+{% endblock %}

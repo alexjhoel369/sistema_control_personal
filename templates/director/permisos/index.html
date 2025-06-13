@@ -1,0 +1,28 @@
+{% extends 'director/base.html' %}
+{% block title %}PERMISOS{% endblock %}
+{% block content %}
+<h1>Lista de permisos</h1>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Empleado</th>
+            <th>Motivo</th>
+            <th>Gestión</th>
+            <th>Estado</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for permiso in permisos %}
+        <tr>
+            <td>{{ permiso.id }}</td>
+            <td>{{ permiso.empleado.nombre }} {{ permiso.empleado.apellido }}</td>
+            <td>{{ permiso.motivo }}</td>
+            <td>{{ permiso.fecha_inicio }} - {{ permiso.fecha_fin }}</td>
+            <td>{{ permiso.estado }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

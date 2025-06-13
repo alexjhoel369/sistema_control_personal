@@ -1,0 +1,20 @@
+{% extends 'director/base.html' %}
+
+{% block title %} EDITAR MATERIA {% endblock %}
+
+{% block content %}
+<h1>Editar materia</h1>
+
+<form action="{{ url_for('materia_director.edit_director', id=materia.id) }}" method="POST">
+    <div class="mb-3">
+        <label class="form-label">Nombre de la materia</label>
+        <input type="text" class="form-control" name="nombre" value="{{ materia.nombre }}" required>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Descripción</label>
+        <textarea class="form-control" name="descripcion" rows="3">{{ materia.descripcion }}</textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Actualizar materia</button>
+    <a href="{{ url_for('materia_director.index_director') }}" class="btn btn-secondary">Cancelar</a>
+</form>
+{% endblock %}

@@ -1,0 +1,5 @@
+echo __pycache__/ > .gitignore
+echo .env >> .gitignore
+# Ignorar la carpeta de configuración y base de datos
+instance/
+*.db

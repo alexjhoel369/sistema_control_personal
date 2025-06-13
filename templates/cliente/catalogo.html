@@ -1,0 +1,32 @@
+{% extends "cliente/base.html" %}
+
+{% block title %}Catálogo de Películas{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="text-center my-4 text-light">Catálogo de Películas</h1>
+    <div class="movie-grid">
+        {% for pelicula in peliculas %}
+        <div class="movie-card">
+            <div class="movie-image">
+                {% if pelicula.imagen %}
+                <img src="{{ url_for('static', filename='uploads/' + pelicula.imagen.split('/')[-1]) }}" alt="Imagen de {{ pelicula.titulo }}">
+                {% else %}
+                <img src="{{ url_for('static', filename='images/default_movie.jpg') }}" alt="Imagen por defecto">
+                {% endif %}
+            </div>
+            <div class="movie-info">
+                <h5>{{ pelicula.titulo }}</h5>
+                <p>{{ pelicula.descripcion }}</p>
+                <p><span class="text-info">Idioma:</span> {{ pelicula.idioma }}</p>
+                <p><span class="text-warning">Precio:</span> ${{ pelicula.precio|round(2) }}</p>
+                <form action="{{ url_for('venta.create_from_index') }}" method="POST">
+                    <input type="hidden" name="pelicula_id" value="{{ pelicula.id }}">
+                    <button type="submit" class="btn btn-danger">Comprar</button>
+                </form>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

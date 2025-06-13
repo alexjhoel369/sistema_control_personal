@@ -1,0 +1,35 @@
+{% extends 'admin/base.html' %}
+
+{% block title %} Crear Asistencia {% endblock %}
+
+{% block content %}
+<h1>Crear Asistencia</h1>
+
+<form method="POST" action="{{ url_for('asistencia.create') }}">
+    <div class="mb-3">
+        <label>Fecha</label>
+        <input type="date" name="fecha" class="form-control" required>
+    </div>
+    <div class="mb-3">
+        <label>Hora Entrada</label>
+        <input type="time" name="hora_entrada" class="form-control" required>
+    </div>
+    <div class="mb-3">
+        <label>Hora Salida</label>
+        <input type="time" name="hora_salida" class="form-control">
+    </div>
+    <div class="mb-3">
+        <label>Justificación</label>
+        <textarea name="justificacion" class="form-control"></textarea>
+    </div>
+    <div class="mb-3">
+        <label>Empleado</label>
+        <select name="empleado_id" class="form-control" required>
+            {% for empleado in empleados %}
+            <option value="{{ empleado.id }}">{{ empleado.nombre }} {{ empleado.apellido }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Guardar</button>
+</form>
+{% endblock %}
