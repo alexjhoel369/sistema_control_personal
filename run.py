@@ -5,9 +5,9 @@ from controllers import cargo_controller
 from controllers import empleado_controller
 from controllers import asistencia_controller
 from controllers import comunicado_controller
-from controllers import materia_controller
-from controllers import materia_asignada_controller
-from controllers import permiso_controller
+from controllers import tipo_licencia_controller
+from controllers import licencia_aprobada_controller
+from controllers import solicitud_licencia_controller
 from controllers import rol_controller
 from controllers import usuario_controller
 from controllers import historial_controller
@@ -38,16 +38,16 @@ app.register_blueprint(cargo_controller.cargo_bp)
 app.register_blueprint(empleado_controller.empleado_bp)
 app.register_blueprint(asistencia_controller.asistencia_bp)
 app.register_blueprint(comunicado_controller.comunicado_bp)
-app.register_blueprint(materia_controller.materia_bp)
-app.register_blueprint(materia_asignada_controller.materia_asignada_bp)
-app.register_blueprint(permiso_controller.permiso_bp)
+app.register_blueprint(tipo_licencia_controller.tipo_licencia_bp)
+app.register_blueprint(licencia_aprobada_controller.licencia_aprobada_bp)
+app.register_blueprint(solicitud_licencia_controller.solicitud_licencia_bp)
 app.register_blueprint(historial_controller.historial_bp)
 
 #-------------------------Direc----------------------------
 app.register_blueprint(empleado_controller.empleado_director_bp)
-app.register_blueprint(materia_controller.materia_director_bp)
-app.register_blueprint(materia_asignada_controller.materia_asignada_director_bp)
-app.register_blueprint(permiso_controller.permiso_director_bp)
+app.register_blueprint(tipo_licencia_controller.tipo_licencia_director_bp)
+app.register_blueprint(licencia_aprobada_controller.licencia_aprobada_director_bp)
+app.register_blueprint(solicitud_licencia_controller.solicitud_licencia_director_bp)
 app.register_blueprint(comunicado_controller.comunicado_director_bp)
 app.register_blueprint(historial_controller.historial_director_bp)
 

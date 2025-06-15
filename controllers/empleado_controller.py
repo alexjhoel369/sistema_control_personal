@@ -37,12 +37,10 @@ def create():
             empleado.save()
             flash('Empleado creado correctamente.', 'success')
 
-            # print("Empleado guardado:", empleado.nombre)  # DEBUG 
             return redirect(url_for('empleado.index'))
 
         except Exception as e:
             flash(f'Error al crear empleado: {str(e)}', 'danger')
-            # print("Error al guardar empleado:", e)  # DEBUG 
 
     cargos = Cargo.get_all()
     return empleado_view.create(cargos)

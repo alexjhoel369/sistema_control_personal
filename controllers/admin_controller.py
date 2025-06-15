@@ -5,14 +5,15 @@ from .auth_controller import login_required
 # Crear Blueprint para el administrador
 admin_bp = Blueprint("admin", __name__, url_prefix="/admin")
 
-@admin_bp.before_request
-@login_required
-def verificar_acceso():
+#@admin_bp.before_request
+#@login_required
+#def verificar_acceso():
     # Verificar si el usuario es administrador (rol_id == 1)
-    if session.get("user_role") != 1:
-        flash("Acceso denegado. Debes ser administrador para acceder.", "danger")
-        return redirect(url_for("auth.login"))
+#    if session.get("user_role") != 1:
+#        flash("Acceso denegado. Debes ser administrador para acceder.", "danger")
+#        return redirect(url_for("auth.login"))
 
+##. quita los # de aqui para poder ingresar al administrador.##
 # Ruta principal del dashboard
 @admin_bp.route("/")
 def dashboard():
@@ -31,9 +32,9 @@ def usuarios():
 def cargos():
     return redirect(url_for("cargo.index"))
 
-@admin_bp.route("/permisos/")
+@admin_bp.route("/solicitud_licencias/")
 def permisos():
-    return redirect(url_for("permiso.index"))
+    return redirect(url_for("solicitud_licencia.index"))
 
 @admin_bp.route("/asistencias/")
 def asistencias():
@@ -43,13 +44,13 @@ def asistencias():
 def comunicados():
     return redirect(url_for("comunicado.index"))
 
-@admin_bp.route("/materias/")
+@admin_bp.route("/tipo_licencia/")
 def materias():
-    return redirect(url_for("materia.index"))
+    return redirect(url_for("tipo_licencia.index"))
 
-@admin_bp.route("/materias_asignadas/")
+@admin_bp.route("/licencias_aprobadas/")
 def materias_asignadas():
-    return redirect(url_for("materia_asignada.index"))
+    return redirect(url_for("licencia_aprobada.index"))
 
 @admin_bp.route("/historiales/")
 def historiales():

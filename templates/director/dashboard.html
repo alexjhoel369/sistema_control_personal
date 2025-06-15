@@ -4,39 +4,39 @@
 
 {% block content %}
 <div class="container mt-4">
-  <h1 class="text-center">Bienvenido al Panel de directoristración</h1>
+  <h1 class="text-center">Bienvenido al Panel de Dirección</h1>
   <div class="row mt-4">
-    <!-- Módulos implementados -->
+    
     <div class="col-md-4 mb-3">
       <a href="{{ url_for('director.empleados') }}" class="btn btn-primary w-100 py-3">
         <i class="bi bi-person-vcard-fill me-2"></i> Vista Empleados
       </a>
     </div>
-    <div class="col-md-4 mb-3">
-      <a href="{{ url_for('director.permisos') }}" class="btn btn-primary w-100 py-3">
-        <i class="bi bi-file-earmark-text-fill me-2"></i>Vista Permisos
-      </a>
-    </div>
+
     <div class="col-md-4 mb-3">
       <a href="{{ url_for('director.comunicados') }}" class="btn btn-primary w-100 py-3">
-        <i class="bi bi-megaphone-fill me-2"></i>Gestionar Comunicados
+        <i class="bi bi-megaphone-fill me-2"></i> Gestionar Comunicados
       </a>
     </div>
-    <div class="col-md-4 mb-3">
-      <a href="{{ url_for('director.materias') }}" class="btn btn-primary w-100 py-3">
-        <i class="bi bi-journal-bookmark-fill me-2"></i>Gestionar Materias
-      </a>
-    </div>
-    <div class="col-md-4 mb-3">
-      <a href="{{ url_for('director.materias_asignadas') }}" class="btn btn-primary w-100 py-3">
-        <i class="bi bi-journal-check me-2"></i>Materias Asignadas
-      </a>
-    </div>
+
     <div class="col-md-4 mb-3">
       <a href="{{ url_for('director.historiales') }}" class="btn btn-primary w-100 py-3">
-        <i class="bi bi-clock-history me-2"></i>Consultar Historial Laboral
+        <i class="bi bi-clock-history me-2"></i> Consultar Historial Laboral
       </a>
     </div>
+
+    <div class="col-md-4 mb-3">
+      <a href="{{ url_for('director.licencias_aprobadas') }}" class="btn btn-success w-100 py-3">
+        <i class="bi bi-check-circle-fill me-2"></i> Licencias Aprobadas
+      </a>
+    </div>
+
+    <div class="col-md-4 mb-3">
+      <a href="{{ url_for('director.permisos') }}" class="btn btn-warning w-100 py-3">
+        <i class="bi bi-journal-text me-2"></i> Solicitudes de Licencia
+      </a>
+    </div>
+
   </div>
 </div>
 {% endblock %}

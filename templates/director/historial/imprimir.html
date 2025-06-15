@@ -24,49 +24,55 @@
 <p>No hay usuarios vinculados.</p>
 {% endif %}
 
-<h3>Materias asignadas:</h3>
-{% if materias_asignadas %}
-<ul>
-    {% for materia_asignada in materias_asignadas %}
-        <li>{{ materia_asignada.materia.nombre if materia_asignada.materia else 'Materia sin nombre' }}</li>
-    {% endfor %}
-</ul>
-{% else %}
-<p>No hay materias asignadas.</p>
-{% endif %}
+{# Aquí eliminamos "Materias asignadas" porque ya no existe esa relación #}
 
 <h3>Asistencias registradas:</h3>
 {% if asistencias %}
 <ul>
     {% for asistencia in asistencias %}
-        <li>
-          Fecha: {{ asistencia.fecha.strftime('%Y-%m-%d') if asistencia.fecha else 'Sin fecha' }},
-          Entrada: {{ asistencia.hora_entrada.strftime('%H:%M') if asistencia.hora_entrada else 'N/A' }},
-          Salida: {{ asistencia.hora_salida.strftime('%H:%M') if asistencia.hora_salida else 'N/A' }},
-          Empleado: {{ asistencia.empleado.nombre }} {{ asistencia.empleado.apellido }}
-        </li>
+    <li>
+        Fecha: {{ asistencia.fecha.strftime('%Y-%m-%d') if asistencia.fecha else 'Sin fecha' }},
+        Entrada: {{ asistencia.hora_entrada.strftime('%H:%M') if asistencia.hora_entrada else 'N/A' }},
+        Salida: {{ asistencia.hora_salida.strftime('%H:%M') if asistencia.hora_salida else 'N/A' }},
+        Empleado: {{ asistencia.empleado.nombre }} {{ asistencia.empleado.apellido }}
+    </li>
     {% endfor %}
 </ul>
 {% else %}
 <p>No hay asistencias registradas.</p>
 {% endif %}
 
-<h3>Permisos:</h3>
-{% if permisos %}
+<h3>Licencias aprobadas:</h3>
+{% if licencias_aprobadas %}
 <ul>
-    {% for permiso in permisos %}
-        <li>
-            Fecha Solicitud: {{ permiso.fecha_solicitud.strftime('%Y-%m-%d') }},
-            Periodo: {{ permiso.fecha_inicio.strftime('%Y-%m-%d') }} a {{ permiso.fecha_fin.strftime('%Y-%m-%d') }},
-            Motivo: {{ permiso.motivo }},
-            Estado: {{ permiso.estado if permiso.estado else 'Pendiente' }},
-            Empleado: {{ permiso.empleado.nombre }} {{ permiso.empleado.apellido }}
-        </li>
+    {% for licencia in licencias_aprobadas %}
+    <li>
+        Fecha: {{ licencia.fecha_aprobacion.strftime('%Y-%m-%d') if licencia.fecha_aprobacion else 'Sin fecha' }},
+        Tipo: {{ licencia.tipo_licencia.nombre if licencia.tipo_licencia else 'No definido' }},
+        Estado: {{ licencia.estado if licencia.estado else 'Pendiente' }}
+    </li>
     {% endfor %}
 </ul>
 {% else %}
-<p>No hay permisos registrados.</p>
+<p>No hay licencias aprobadas.</p>
 {% endif %}
+
+<h3>Solicitudes de licencia:</h3>
+{% if solicitudes_licencia %}
+<ul>
+    {% for solicitud in solicitudes_licencia %}
+    <li>
+        Fecha solicitud: {{ solicitud.fecha_solicitud.strftime('%Y-%m-%d') if solicitud.fecha_solicitud else 'Sin fecha'
+        }},
+        Tipo: {{ solicitud.tipo_licencia.nombre if solicitud.tipo_licencia else 'No definido' }},
+        Estado: {{ solicitud.estado if solicitud.estado else 'Pendiente' }}
+    </li>
+    {% endfor %}
+</ul>
+{% else %}
+<p>No hay solicitudes de licencia.</p>
+{% endif %}
+
 
 <h3>Historial Laboral:</h3>
 {% if historial_laboral %}
@@ -96,10 +102,10 @@
 <a href="{{ url_for('historial_director.index_director') }}" class="btn btn-secondary no-print">Volver</a>
 
 <style>
-  @media print {
-    .no-print {
-      display: none !important;
+    @media print {
+        .no-print {
+            display: none !important;
+        }
     }
-  }
 </style>
 {% endblock %}

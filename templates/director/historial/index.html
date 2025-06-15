@@ -27,9 +27,10 @@
             <td>{{ item.fecha_fin.strftime('%Y-%m-%d') if item.fecha_fin else 'Sin fecha' }}</td>
             <td>{{ (item.usuario.nombre ~ ' (' ~ item.usuario.username ~ ')') if item.usuario else 'No definido' }}</td>
             <td>
-                <a href="{{ url_for('historial_director.imprimir_director', empleado_id=item.empleado_id) }}" class="btn btn-info btn-sm">
+                <a href="{{ url_for('historial_director.imprimir_director', empleado_id=item.empleado_id) }}">
                     Imprimir
                 </a>
+
             </td>
         </tr>
         {% endfor %}

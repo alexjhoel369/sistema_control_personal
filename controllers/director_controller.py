@@ -18,23 +18,13 @@ def verificar_acceso():
 def dashboard():
     return render_dashboard()
 
-# Rutas para módulos específicos (redirigen a sus respectivos blueprints)
-
-@director_bp.route("/permisos/")
-def permisos():
-    return redirect(url_for("permiso.index"))
-
 @director_bp.route("/comunicados/")
 def comunicados():
     return redirect(url_for("comunicado.index"))
 
-@director_bp.route("/materias/")
-def materias():
-    return redirect(url_for("materia.index"))
-
-@director_bp.route("/materias_asignadas/")
-def materias_asignadas():
-    return redirect(url_for("materia_asignada.index"))
+@director_bp.route("/licencias_aprobadas/")
+def licencias_aprobadas():
+    return redirect(url_for("licencia_aprobada.index"))
 
 @director_bp.route("/historiales/")
 def historiales():
@@ -43,3 +33,7 @@ def historiales():
 @director_bp.route("/empleados/")
 def empleados():
     return redirect(url_for("empleado.index"))
+
+@director_bp.route("/solicitud_licencias/")
+def permisos():
+    return redirect(url_for("solicitud_licencia_director.index_director"))

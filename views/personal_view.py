@@ -1,7 +1,7 @@
 from flask import render_template, session, request, redirect, url_for, flash
 from models.usuario_model import Usuario
 from models.empleado_model import Empleado
-from models.permiso_model import Permiso
+from models.solicitud_licencia_model import SolicitudLicencia
 from models.asistencia_model import Asistencia
 from datetime import datetime, date
 from sqlalchemy import and_

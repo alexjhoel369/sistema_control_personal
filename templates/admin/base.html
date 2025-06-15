@@ -37,16 +37,16 @@
             <a class="nav-link {% if request.path == url_for('admin.asistencias') %}active{% endif %}" href="{{ url_for('admin.asistencias') }}">Asistencias</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link {% if request.path == url_for('admin.permisos') %}active{% endif %}" href="{{ url_for('admin.permisos') }}">Permisos</a>
+            <a class="nav-link {% if request.path == url_for('solicitud_licencia.index') %}active{% endif %}" href="{{ url_for('solicitud_licencia.index') }}">Solicitud Licencias</a>
           </li>
           <li class="nav-item">
             <a class="nav-link {% if request.path == url_for('admin.comunicados') %}active{% endif %}" href="{{ url_for('admin.comunicados') }}">Comunicados</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link {% if request.path == url_for('admin.materias') %}active{% endif %}" href="{{ url_for('admin.materias') }}">Materias</a>
+            <a class="nav-link {% if request.path == url_for('tipo_licencia.index') %}active{% endif %}" href="{{ url_for('tipo_licencia.index') }}">Tipos de licencia</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link {% if request.path == url_for('admin.materias_asignadas') %}active{% endif %}" href="{{ url_for('admin.materias_asignadas') }}">Asignaciones</a>
+            <a class="nav-link {% if request.path == url_for('licencia_aprobada.index') %}active{% endif %}" href="{{ url_for('licencia_aprobada.index') }}">Licencias Aprobadas</a>
           </li>
           <li class="nav-item">
             <a class="nav-link {% if request.path == url_for('admin.historiales') %}active{% endif %}" href="{{ url_for('admin.historiales') }}">Historial</a>

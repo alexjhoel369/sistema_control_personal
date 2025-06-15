@@ -1,0 +1,35 @@
+{% extends 'admin/base.html' %}
+
+{% block title %} Licencias Aprobadas {% endblock %}
+
+{% block content %}
+<h1 class="mb-4">Licencias Aprobadas</h1>
+
+<a href="{{ url_for('licencia_aprobada.create') }}" class="btn btn-success mb-3">Nueva Licencia</a>
+
+<table class="table table-striped table-bordered table-hover">
+    <thead class="thead-dark">
+        <tr>
+            <th>ID</th>
+            <th>Empleado</th>
+            <th>Tipo de Licencia</th>
+            <th>Gestión</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for licencia in licencias %}
+        <tr>
+            <td>{{ licencia.id }}</td>
+            <td>{{ licencia.empleado.nombre }} {{ licencia.empleado.apellido }}</td>
+            <td>{{ licencia.tipo_licencia.nombre }}</td>
+            <td>{{ licencia.gestion }}</td>
+            <td>
+                <a href="{{ url_for('licencia_aprobada.edit', id=licencia.id) }}" class="btn btn-warning btn-sm">Editar</a>
+                <a href="{{ url_for('licencia_aprobada.delete', id=licencia.id) }}" class="btn btn-danger btn-sm" onclick="return confirm('¿Desea eliminar esta licencia aprobada?')">Eliminar</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
