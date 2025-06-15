@@ -1,22 +1,34 @@
 from database import db
-from datetime import date, datetime
+from sqlalchemy.orm import joinedload
+from datetime import datetime
 
-class Comunicado(db.Model):
-    __tablename__ = "comunicados"
+class Empleado(db.Model):
+    __tablename__ = "empleados"
 
     id = db.Column(db.Integer, primary_key=True)
-    titulo = db.Column(db.String(150), nullable=False)
-    contenido = db.Column(db.Text, nullable=False)
-    fecha_publicacion = db.Column(db.Date, nullable=False, default=date.today)
-    
-    usuario_id = db.Column(db.Integer, db.ForeignKey('usuarios.id'), nullable=False)
-    usuario = db.relationship('Usuario', back_populates='comunicados')
+    nombre = db.Column(db.String(255), nullable=False)
+    apellido = db.Column(db.String(255), nullable=False)
+    ci = db.Column(db.String(20), nullable=False, unique=True)
+    email = db.Column(db.String(255), nullable=False, unique=True)
+    telefono = db.Column(db.String(20), nullable=False)
+    fecha = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    cargo_id = db.Column(db.Integer, db.ForeignKey('cargos.id'), nullable=False)
 
-    def __init__(self, titulo, contenido, fecha_publicacion=None, usuario_id=None):
-        self.titulo = titulo
-        self.contenido = contenido
-        self.fecha_publicacion = fecha_publicacion or date.today()
-        self.usuario_id = usuario_id
+    cargo = db.relationship('Cargo', back_populates='empleados')
+    usuarios = db.relationship('Usuario', back_populates='empleado', cascade='all, delete-orphan')
+    asistencias = db.relationship('Asistencia', back_populates='empleado', cascade='all, delete-orphan')
+    historial_laboral = db.relationship('Historial', back_populates='empleado', cascade='all, delete-orphan')
+    licencias_aprobadas = db.relationship('LicenciaAprobada', back_populates='empleado', cascade='all, delete-orphan')
+    solicitudes_licencia = db.relationship('SolicitudLicencia', back_populates='empleado', cascade='all, delete-orphan')
+
+    def __init__(self, nombre, apellido, ci, email, telefono, fecha=None, cargo_id=None):
+        self.nombre = nombre
+        self.apellido = apellido
+        self.ci = ci
+        self.email = email
+        self.telefono = telefono
+        self.fecha = fecha if fecha else datetime.utcnow()
+        self.cargo_id = cargo_id
 
     def save(self):
         db.session.add(self)
@@ -24,31 +36,29 @@ class Comunicado(db.Model):
 
     @staticmethod
     def get_all():
-        return Comunicado.query.all()
+        return Empleado.query.all()
 
     @staticmethod
     def get_by_id(id):
-        return Comunicado.query.get(id)
+        return Empleado.query.get(id)
+    
+    @staticmethod
+    def get_full_by_id(id):
+        return Empleado.query.options(
+        joinedload(Empleado.cargo),
+        joinedload(Empleado.usuarios),
+        joinedload(Empleado.solicitudes_licencia),
+        joinedload(Empleado.asistencias),
+        joinedload(Empleado.licencias_aprobadas),
+        joinedload(Empleado.historial_laboral)
+    ).filter_by(id=id).first()
 
-    def update(self, titulo=None, contenido=None, fecha_publicacion=None, usuario_id=None):
-        if titulo:
-            self.titulo = titulo
-        if contenido:
-            self.contenido = contenido
-        if fecha_publicacion:
-            self.fecha_publicacion = fecha_publicacion
-        if usuario_id:
-            self.usuario_id = usuario_id
+
+    def update(self, **kwargs):
+        for key, value in kwargs.items():
+            setattr(self, key, value)
         db.session.commit()
 
     def delete(self):
         db.session.delete(self)
         db.session.commit()
-
-    @staticmethod
-    def convert_to_date(date_str):
-        """Convierte un string en formato 'YYYY-MM-DD' a un objeto date."""
-        try:
-            return datetime.strptime(date_str, '%Y-%m-%d').date()
-        except (ValueError, TypeError):
-            return None  # o return date.today() si prefieres usar la fecha actual como predeterminada
