@@ -53,7 +53,8 @@ app.register_blueprint(historial_controller.historial_director_bp)
 
 #-------------------------Pers----------------------------
 app.register_blueprint(personal_controller.personal_bp)
-
+app.register_blueprint(solicitud_licencia_controller.solicitud_licencia_personal_bp)
+app.register_blueprint(licencia_aprobada_controller.licencia_aprobada_personal_bp)
 
 #-----------------------------------------------------
 app.register_blueprint(home_controller.home_bp)

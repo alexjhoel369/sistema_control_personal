@@ -15,16 +15,7 @@
         <label>Fecha publicación</label>
         <input type="date" class="form-control" name="fecha_publicacion" value="{{ comunicado.fecha_publicacion }}" required>
     </div>
-    <div class="mb-3">
-        <label>Usuario</label>
-        <select class="form-control" name="usuario_id" required>
-            {% for usuario in usuarios %}
-            <option value="{{ usuario.id }}" {% if usuario.id == comunicado.usuario_id %}selected{% endif %}>
-                {{ usuario.username }}
-            </option>
-            {% endfor %}
-        </select>
-    </div>
+    
     <button type="submit" class="btn btn-primary">Actualizar</button>
 </form>
 {% endblock %}

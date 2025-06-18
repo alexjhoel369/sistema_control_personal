@@ -9,19 +9,19 @@ class SolicitudLicencia(db.Model):
     fecha_inicio = db.Column(db.Date, nullable=False)
     fecha_fin = db.Column(db.Date, nullable=False)
     motivo = db.Column(db.Text, nullable=False)
-    estado = db.Column(db.String(20), nullable=True)
     empleado_id = db.Column(db.Integer, db.ForeignKey('empleados.id'), nullable=False)
     tipo_licencia_id = db.Column(db.Integer, db.ForeignKey('tipos_licencia.id'), nullable=False)
 
     empleado = db.relationship('Empleado', back_populates='solicitudes_licencia')
     tipo_licencia = db.relationship('TipoLicencia', back_populates='solicitudes')
+    licencia_aprobada = db.relationship('LicenciaAprobada', back_populates='solicitud_licencia', uselist=False)
 
-    def __init__(self, fecha_solicitud, fecha_inicio, fecha_fin, motivo, estado, empleado_id, tipo_licencia_id):
+
+    def __init__(self, fecha_solicitud, fecha_inicio, fecha_fin, motivo, empleado_id, tipo_licencia_id):
         self.fecha_solicitud = fecha_solicitud
         self.fecha_inicio = fecha_inicio
         self.fecha_fin = fecha_fin
         self.motivo = motivo
-        self.estado = estado
         self.empleado_id = empleado_id
         self.tipo_licencia_id = tipo_licencia_id
 

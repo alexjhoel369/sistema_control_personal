@@ -5,8 +5,6 @@
 {% block content %}
 <h1>Asistencias</h1>
 
-<a href="{{ url_for('asistencia.create') }}" class="btn btn-success mb-3">Nueva Asistencia</a>
-
 <table class="table table-striped">
     <thead>
         <tr>
@@ -30,7 +28,6 @@
             <td>{{ a.empleado.nombre }} {{ a.empleado.apellido }}</td>
             <td>
                 <a href="{{ url_for('asistencia.edit', id=a.id) }}" class="btn btn-warning btn-sm">Editar</a>
-                <a href="{{ url_for('asistencia.delete', id=a.id) }}" class="btn btn-danger btn-sm" onclick="return confirm('¿Eliminar asistencia?')">Eliminar</a>
             </td>
         </tr>
         {% endfor %}

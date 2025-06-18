@@ -17,7 +17,6 @@
             <th>Fecha inicio</th>
             <th>Fecha fin</th>
             <th>Motivo</th>
-            <th>Estado</th>
             <th>Acciones</th>
         </tr>
     </thead>
@@ -31,7 +30,6 @@
             <td>{{ solicitud.fecha_inicio.strftime('%Y-%m-%d') if solicitud.fecha_inicio else '' }}</td>
             <td>{{ solicitud.fecha_fin.strftime('%Y-%m-%d') if solicitud.fecha_fin else '' }}</td>
             <td>{{ solicitud.motivo }}</td>
-            <td>{{ solicitud.estado or 'Pendiente' }}</td>
             <td>
                 <a href="{{ url_for('solicitud_licencia.edit', id=solicitud.id) }}" class="btn btn-warning btn-sm">Editar</a>
                 <a href="{{ url_for('solicitud_licencia.delete', id=solicitud.id) }}" class="btn btn-danger btn-sm ml-2" onclick="return confirm('¿Estás seguro de eliminar esta solicitud?');">Eliminar</a>

@@ -23,14 +23,25 @@ def create():
         fecha_inicio = datetime.strptime(request.form['fecha_inicio'], '%Y-%m-%d').date()
         fecha_fin = datetime.strptime(request.form['fecha_fin'], '%Y-%m-%d').date()
         motivo = request.form['motivo']
-        estado = request.form.get('estado')
         empleado_id = int(request.form['empleado_id'])
         tipo_licencia_id = int(request.form['tipo_licencia_id'])
 
+        # 1. Crear la solicitud de licencia
         solicitud = SolicitudLicencia(
-            fecha_solicitud, fecha_inicio, fecha_fin, motivo, estado, empleado_id, tipo_licencia_id
+            fecha_solicitud, fecha_inicio, fecha_fin, motivo, empleado_id, tipo_licencia_id
         )
         solicitud.save()
+
+        # 2. Crear automáticamente la licencia aprobada con estado pendiente PASANDO solicitud_licencia_id
+        from models.licencia_aprobada_model import LicenciaAprobada
+        licencia = LicenciaAprobada(
+            empleado_id=empleado_id,
+            solicitud_licencia_id=solicitud.id,  # <-- Aquí va el ID de la solicitud creada
+            estado="Pendiente"
+        )
+        licencia.save()
+
+        flash("Solicitud registrada y licencia pendiente creada.", "success")
         return redirect(url_for('solicitud_licencia.index'))
 
     empleados = Empleado.query.all()
@@ -55,7 +66,6 @@ def edit(id):
             fecha_inicio=fecha_inicio,
             fecha_fin=fecha_fin,
             motivo=request.form['motivo'],
-            estado=request.form.get('estado'),
             empleado_id=int(request.form['empleado_id']),
             tipo_licencia_id=int(request.form['tipo_licencia_id'])
         )
@@ -100,7 +110,6 @@ def create_director():
             fecha_inicio,
             fecha_fin,
             request.form['motivo'],
-            request.form.get('estado'),
             int(request.form['empleado_id']),
             int(request.form['tipo_licencia_id'])
         )
@@ -128,7 +137,6 @@ def edit_director(id):
             fecha_inicio=fecha_inicio,
             fecha_fin=fecha_fin,
             motivo=request.form['motivo'],
-            estado=request.form.get('estado'),
             empleado_id=int(request.form['empleado_id']),
             tipo_licencia_id=int(request.form['tipo_licencia_id'])
         )
@@ -142,15 +150,44 @@ def edit_director(id):
 
 @solicitud_licencia_personal_bp.route('/')
 def index_personal():
-    empleado_id = session.get('empleado_id')
-    solicitudes = SolicitudLicencia.query.filter_by(empleado_id=empleado_id).all()
+    usuario_id = session.get("user_id")
+    if not usuario_id:
+        flash("Sesión no válida.", "danger")
+        return redirect(url_for("auth.login"))
+
+    from models.usuario_model import Usuario
+    usuario = Usuario.get_by_id(usuario_id)
+    if not usuario:
+        flash("Usuario no encontrado.", "danger")
+        return redirect(url_for("auth.login"))
+
+    solicitudes = SolicitudLicencia.query.filter_by(empleado_id=usuario.empleado_id).all()
+    
+    # Cálculo de días (opcional)
+    for solicitud in solicitudes:
+        if solicitud.fecha_inicio and solicitud.fecha_fin:
+            solicitud.dias_permiso = (solicitud.fecha_fin - solicitud.fecha_inicio).days + 1
+        else:
+            solicitud.dias_permiso = 0
+
     return solicitud_licencia_view.personal_list(solicitudes)
+
 
 @solicitud_licencia_personal_bp.route('/create', methods=['GET', 'POST'])
 def create_personal():
-    empleado_id = session.get('empleado_id')
+    usuario_id = session.get("user_id")
+    if not usuario_id:
+        flash("Sesión no válida.", "danger")
+        return redirect(url_for("auth.login"))
+
+    from models.usuario_model import Usuario
+    usuario = Usuario.get_by_id(usuario_id)
+    if not usuario or not usuario.empleado_id:
+        flash("Usuario o empleado no encontrado.", "danger")
+        return redirect(url_for("auth.login"))
+
     if request.method == 'POST':
-        fecha_solicitud = date.today()
+        fecha_solicitud = datetime.strptime(request.form['fecha_solicitud'], '%Y-%m-%d').date()
         fecha_inicio = datetime.strptime(request.form['fecha_inicio'], '%Y-%m-%d').date()
         fecha_fin = datetime.strptime(request.form['fecha_fin'], '%Y-%m-%d').date()
         motivo = request.form['motivo']
@@ -161,14 +198,64 @@ def create_personal():
             fecha_inicio,
             fecha_fin,
             motivo,
-            estado='pendiente',
-            empleado_id=empleado_id,
-            tipo_licencia_id=tipo_licencia_id
+            usuario.empleado_id,
+            tipo_licencia_id
         )
         solicitud.save()
+
+        # Crear licencia aprobada automáticamente con estado "Pendiente"
+        from models.licencia_aprobada_model import LicenciaAprobada
+        licencia = LicenciaAprobada(
+            empleado_id=usuario.empleado_id,
+            solicitud_licencia_id=solicitud.id,
+            estado="Pendiente"
+        )
+        licencia.save()
+
         return redirect(url_for('solicitud_licencia_personal.index_personal'))
 
     tipos = TipoLicencia.query.all()
     fecha_actual = date.today().isoformat()
     return solicitud_licencia_view.personal_create(tipos=tipos, fecha_actual=fecha_actual)
 
+@solicitud_licencia_personal_bp.route('/edit/<int:id>', methods=['GET', 'POST'])
+def edit_personal(id):
+    usuario_id = session.get("user_id")
+    if not usuario_id:
+        flash("Sesión no válida.", "danger")
+        return redirect(url_for("auth.login"))
+
+    from models.usuario_model import Usuario
+    usuario = Usuario.get_by_id(usuario_id)
+    if not usuario or not usuario.empleado_id:
+        flash("Usuario o empleado no encontrado.", "danger")
+        return redirect(url_for("auth.login"))
+
+    solicitud = SolicitudLicencia.get_by_id(id)
+    if not solicitud:
+        return "Solicitud no encontrada", 404
+
+    # Validar que la solicitud pertenece al empleado del usuario actual
+    if solicitud.empleado_id != usuario.empleado_id:
+        flash("No tienes permiso para editar esta solicitud.", "danger")
+        return redirect(url_for('solicitud_licencia_personal.index_personal'))
+
+    if request.method == 'POST':
+        fecha_solicitud = datetime.strptime(request.form['fecha_solicitud'], '%Y-%m-%d').date()
+        fecha_inicio = datetime.strptime(request.form['fecha_inicio'], '%Y-%m-%d').date()
+        fecha_fin = datetime.strptime(request.form['fecha_fin'], '%Y-%m-%d').date()
+        motivo = request.form['motivo']
+        tipo_licencia_id = int(request.form['tipo_licencia_id'])
+
+        solicitud.update(
+            fecha_solicitud=fecha_solicitud,
+            fecha_inicio=fecha_inicio,
+            fecha_fin=fecha_fin,
+            motivo=motivo,
+            # No cambiar empleado_id
+            tipo_licencia_id=tipo_licencia_id
+        )
+        return redirect(url_for('solicitud_licencia_personal.index_personal'))
+
+    tipos = TipoLicencia.query.all()
+    return solicitud_licencia_view.personal_edit(solicitud=solicitud, tipos=tipos)

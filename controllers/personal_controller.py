@@ -27,7 +27,22 @@ def verificar_acceso():
 # Dashboard principal
 @personal_bp.route("/")
 def dashboard():
-    return personal_view.dashboard()
+    usuario_id = session.get("user_id")
+    usuario = Usuario.get_by_id(usuario_id)
+    
+    if not usuario or not usuario.empleado_id:
+        flash("Empleado no vinculado al usuario.", "danger")
+        return redirect(url_for("auth.login"))
+
+    empleado = Empleado.get_by_id(usuario.empleado_id)
+
+    licencias_pendientes = LicenciaAprobada.query.filter_by(
+        empleado_id=empleado.id, estado='Pendiente'
+    ).count()
+
+    return personal_view.dashboard(
+        licencias_pendientes=licencias_pendientes,
+    )
 
 
 # Ver perfil personal
@@ -59,80 +74,15 @@ def asistencia():
     return personal_view.ver_historial_asistencia()
 
 
-# Ver solicitudes de licencia personales
-@personal_bp.route("/solicitud_licencias/", methods=["GET"])
-def ver_solicitudes_licencia():
-    usuario_id = session.get("user_id")
-    usuario = Usuario.get_by_id(usuario_id)
+# Ver solicitudes de licencia personal
+#---------------------
+@personal_bp.route("/solicitud_licencias/")
+def permisos():
+    return redirect(url_for("solicitud_licencia_personal.index_personal"))
 
-    if not usuario:
-        flash("Sesión inválida.", "danger")
-        return redirect(url_for("auth.login"))
-
-    empleado_id = usuario.empleado_id
-    solicitudes = SolicitudLicencia.query.filter_by(empleado_id=empleado_id).order_by(SolicitudLicencia.fecha_solicitud.desc()).all()
-
-    return solicitud_licencia_view.personal_list(solicitudes)
-
-
-# Crear nueva solicitud de licencia (formulario)
-@personal_bp.route("/solicitud_licencias/nuevo/", methods=["GET", "POST"])
-def crear_solicitud_licencia():
-    usuario_id = session.get("user_id")
-    usuario = Usuario.get_by_id(usuario_id)
-
-    if not usuario:
-        flash("Sesión inválida.", "danger")
-        return redirect(url_for("auth.login"))
-
-    empleado = Empleado.get_by_id(usuario.empleado_id)
-    if not empleado:
-        flash("Empleado no encontrado.", "warning")
-        return redirect(url_for("personal.ver_solicitudes_licencia"))
-
-    if request.method == "POST":
-        fecha_solicitud_str = request.form.get("fecha_solicitud")
-        fecha_inicio_str = request.form.get("fecha_inicio")
-        fecha_fin_str = request.form.get("fecha_fin")
-        motivo = request.form.get("motivo")
-        tipo_id = request.form.get("tipo_id")
-
-        fecha_solicitud = datetime.strptime(fecha_solicitud_str, "%Y-%m-%d").date()
-        fecha_inicio = datetime.strptime(fecha_inicio_str, "%Y-%m-%d").date()
-        fecha_fin = datetime.strptime(fecha_fin_str, "%Y-%m-%d").date()
-
-        nueva_solicitud = SolicitudLicencia(
-            empleado_id=empleado.id,
-            tipo_licencia_id=tipo_id,
-            fecha_solicitud=fecha_solicitud,
-            fecha_inicio=fecha_inicio,
-            fecha_fin=fecha_fin,
-            motivo=motivo,
-            estado="pendiente"
-        )
-        nueva_solicitud.save()
-        flash("Solicitud de licencia enviada correctamente.", "success")
-        return redirect(url_for("personal.ver_solicitudes_licencia"))
-
-    tipos = TipoLicencia.get_all()
-    fecha_actual = date.today().strftime('%Y-%m-%d')
-    return solicitud_licencia_view.personal_create(tipos, fecha_actual)
-
-
-# Ver licencias aprobadas
 @personal_bp.route("/licencias_aprobadas/")
 def licencias_aprobadas():
-    usuario_id = session.get("user_id")
-    usuario = Usuario.get_by_id(usuario_id)
-    if not usuario:
-        flash("Sesión inválida.", "danger")
-        return redirect(url_for("auth.login"))
-
-    empleado_id = usuario.empleado_id
-    asignaciones = LicenciaAprobada.query.filter_by(empleado_id=empleado_id).all()
-
-    return licencia_aprobada_view.personal_list(asignaciones)
-
+    return redirect(url_for("licencia_aprobada_personal.index_por_estado", estado="Aprobada"))
 
 # Ver comunicados
 @personal_bp.route("/comunicados/", methods=["GET"])

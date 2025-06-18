@@ -14,8 +14,9 @@ class Empleado(db.Model):
     fecha = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     cargo_id = db.Column(db.Integer, db.ForeignKey('cargos.id'), nullable=False)
 
+    # Relaciones
     cargo = db.relationship('Cargo', back_populates='empleados')
-    usuarios = db.relationship('Usuario', back_populates='empleado', cascade='all, delete-orphan')
+    usuarios = db.relationship('Usuario', back_populates='empleado', uselist=False)  # mantener el nombre "usuarios"
     asistencias = db.relationship('Asistencia', back_populates='empleado', cascade='all, delete-orphan')
     historial_laboral = db.relationship('Historial', back_populates='empleado', cascade='all, delete-orphan')
     licencias_aprobadas = db.relationship('LicenciaAprobada', back_populates='empleado', cascade='all, delete-orphan')
@@ -41,18 +42,23 @@ class Empleado(db.Model):
     @staticmethod
     def get_by_id(id):
         return Empleado.query.get(id)
-    
+
     @staticmethod
     def get_full_by_id(id):
         return Empleado.query.options(
-        joinedload(Empleado.cargo),
-        joinedload(Empleado.usuarios),
-        joinedload(Empleado.solicitudes_licencia),
-        joinedload(Empleado.asistencias),
-        joinedload(Empleado.licencias_aprobadas),
-        joinedload(Empleado.historial_laboral)
-    ).filter_by(id=id).first()
+            joinedload(Empleado.cargo),
+            joinedload(Empleado.usuarios),
+            joinedload(Empleado.solicitudes_licencia),
+            joinedload(Empleado.asistencias),
+            joinedload(Empleado.licencias_aprobadas),
+            joinedload(Empleado.historial_laboral)
+        ).filter_by(id=id).first()
 
+    @classmethod
+    def get_by_usuario_id(cls, usuario_id):
+        from models.usuario_model import Usuario
+        usuario = Usuario.query.get(usuario_id)
+        return usuario.empleado if usuario else None
 
     def update(self, **kwargs):
         for key, value in kwargs.items():

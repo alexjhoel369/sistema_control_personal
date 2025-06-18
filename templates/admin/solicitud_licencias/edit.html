@@ -53,14 +53,7 @@
         <textarea class="form-control" name="motivo" rows="3" required>{{ solicitud.motivo or '' }}</textarea>
     </div>
 
-    <div class="mb-3">
-        <label class="form-label">Estado</label>
-        <select name="estado" class="form-select" required>
-            <option value="pendiente" {% if solicitud.estado=='pendiente' %} selected {% endif %}>Pendiente</option>
-            <option value="aprobado" {% if solicitud.estado=='aprobado' %} selected {% endif %}>Aprobado</option>
-            <option value="rechazado" {% if solicitud.estado=='rechazado' %} selected {% endif %}>Rechazado</option>
-        </select>
-    </div>
+    
 
     <button type="submit" class="btn btn-primary">Actualizar solicitud</button>
 </form>

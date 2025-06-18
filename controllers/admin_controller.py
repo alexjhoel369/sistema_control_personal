@@ -1,6 +1,12 @@
 from flask import Blueprint, redirect, url_for, session, flash
 from views.admin_view import render_dashboard
 from .auth_controller import login_required
+from models.asistencia_model import Asistencia
+from models.solicitud_licencia_model import SolicitudLicencia
+from models.empleado_model import Empleado
+from models.comunicado_model import Comunicado
+from models.licencia_aprobada_model import LicenciaAprobada
+from datetime import date
 
 # Crear Blueprint para el administrador
 admin_bp = Blueprint("admin", __name__, url_prefix="/admin")
@@ -13,12 +19,39 @@ admin_bp = Blueprint("admin", __name__, url_prefix="/admin")
 #        flash("Acceso denegado. Debes ser administrador para acceder.", "danger")
 #        return redirect(url_for("auth.login"))
 
-##. quita los # de aqui para poder ingresar al administrador.##
 # Ruta principal del dashboard
 @admin_bp.route("/")
 def dashboard():
-    return render_dashboard()
+    # Datos para tarjetas resumen
+    total_empleados = Empleado.query.count()
+    asistencias_hoy = Asistencia.query.filter_by(fecha=date.today()).count()
+    licencias_pendientes = LicenciaAprobada.query.filter_by(estado='Pendiente').count()
+    total_comunicados = Comunicado.query.count()
 
+    # Últimas 3 asistencias registradas
+    ultimas_asistencias = (
+        Asistencia.query.join(Empleado)
+        .order_by(Asistencia.fecha.desc(), Asistencia.hora_entrada.desc())
+        .limit(3)
+        .all()
+    )
+
+    # Últimas 3 licencias solicitadas
+    licencias_recientes = (
+        SolicitudLicencia.query.join(Empleado)
+        .order_by(SolicitudLicencia.fecha_solicitud.desc())
+        .limit(3)
+        .all()
+    )
+
+    return render_dashboard(
+        total_empleados=total_empleados,
+        asistencias_hoy=asistencias_hoy,
+        licencias_pendientes=licencias_pendientes,
+        total_comunicados=total_comunicados,
+        ultimas_asistencias=ultimas_asistencias,
+        licencias_recientes=licencias_recientes
+    )
 # Rutas para módulos específicos (redirigen a sus respectivos blueprints)
 @admin_bp.route("/roles/")
 def roles():

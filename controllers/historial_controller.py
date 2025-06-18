@@ -88,13 +88,13 @@ def imprimir_historial(empleado_id):
         return "Empleado no encontrado", 404
 
     return historial_view.imprimir(
-        empleado=empleado,
-        historial_laboral=empleado.historial_laboral,
-        usuarios=empleado.usuarios,
-        asistencias=empleado.asistencias,
-        licencias_aprobadas=empleado.licencias_aprobadas,
-        solicitudes_licencia=empleado.solicitudes_licencia
-    )
+    empleado=empleado,
+    historial_laboral=empleado.historial_laboral,
+    usuarios=[empleado.usuarios] if empleado.usuarios else [],
+    asistencias=empleado.asistencias,
+    licencias_aprobadas=empleado.licencias_aprobadas,
+    solicitudes_licencia=empleado.solicitudes_licencia
+)
 
 
 @historial_bp.route('/empleado/<int:empleado_id>')
@@ -111,7 +111,7 @@ def get_empleado_json(empleado_id):
         'telefono': empleado.telefono,
         'fecha': empleado.fecha.strftime('%Y-%m-%d'),
         'cargo': empleado.cargo.cargo if empleado.cargo else 'Sin cargo',
-        'usuarios': [u.username for u in empleado.usuarios]
+        'usuarios': [empleado.usuarios.username] if empleado.usuarios else []
     }
     return jsonify(data)
 
@@ -130,10 +130,11 @@ def imprimir_director(empleado_id):
         return "Empleado no encontrado", 404
 
     return historial_view.imprimir_director(
-        empleado=empleado,
-        historial_laboral=empleado.historial_laboral,
-        usuarios=empleado.usuarios,
-        asistencias=empleado.asistencias,
-        licencias_aprobadas=empleado.licencias_aprobadas,
-        solicitudes_licencia=empleado.solicitudes_licencia
-    )
+    empleado=empleado,
+    historial_laboral=empleado.historial_laboral,
+    usuarios=[empleado.usuarios] if empleado.usuarios else [],  
+    asistencias=empleado.asistencias,
+    licencias_aprobadas=empleado.licencias_aprobadas,
+    solicitudes_licencia=empleado.solicitudes_licencia
+)
+

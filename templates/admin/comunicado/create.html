@@ -18,15 +18,8 @@
         <label for="fecha_publicacion">Fecha de publicación</label>
         <input type="date" class="form-control" id="fecha_publicacion" name="fecha_publicacion">
     </div>
-    <div class="form-group">
-        <label for="usuario_id">Seleccionar usuario</label>
-        <select class="form-control" id="usuario_id" name="usuario_id" required>
-            <option value="">-- Selecciona un usuario --</option>
-            {% for usuario in usuarios %}
-            <option value="{{ usuario.id }}">{{ usuario.username }}</option>
-            {% endfor %}
-        </select>
-    </div>
+
+    <!-- Aquí no hay campo para seleccionar usuario -->
 
     <button type="submit" class="btn btn-primary">Guardar</button>
     <a href="{{ url_for('comunicado.index') }}" class="btn btn-secondary">Cancelar</a>

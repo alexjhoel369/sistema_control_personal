@@ -3,58 +3,106 @@
 {% block title %}Inicio | Sistema de Control Personal{% endblock %}
 
 {% block content %}
-<div class="text-center text-light py-5">
-    <h1 class="display-4 fw-bold">Sistema de Control Personal</h1>
-    <p class="lead">Instituto Tecnológico Brasil - Bolivia</p>
-    <hr class="bg-light w-25 mx-auto">
-    <p class="mt-4">Gestión de personal, asistencia, materias, comunicados y permisos institucionales.</p>
-    <a href="{{ url_for('auth.login') }}" class="btn btn-primary mt-3 px-4">Ingresar al Sistema</a>
-</div>
+<!-- Hero Section -->
+<section class="py-5 text-center bg-primary bg-gradient text-white">
+  <div class="container py-4">
+    <img src="{{ url_for('static', filename='images/logo_itb.jpg') }}" alt="Logo ITB" height="80" class="mb-4">
+    <h1 class="display-4 fw-bold mb-3">Sistema de Control Personal</h1>
+    <p class="lead mb-4">Gestión integral de personal, asistencia y permisos institucionales</p>
+    <a href="{{ url_for('auth.login') }}" class="btn btn-light btn-lg px-4 me-2">
+      <i class="bi bi-box-arrow-in-right me-2"></i>Ingresar al Sistema
+    </a>
+    <a href="#features" class="btn btn-outline-light btn-lg px-4">
+      <i class="bi bi-info-circle me-2"></i>Conoce más
+    </a>
+  </div>
+</section>
 
-<div class="row mt-5">
-  <!-- ADMINISTRADOR -->
-  <div class="col-md-4">
-    <div class="card bg-dark text-light h-100 shadow">
-      <div class="card-body">
-        <h4 class="card-title text-success">🟢 Administrador (RRHH)</h4>
-        <ul>
-          <li>Gestión total de empleados</li>
-          <li>Control de permisos, usuarios y roles</li>
-          <li>Reportes, historial, asistencias</li>
-          <li>Envía comunicados generales</li>
-        </ul>
+<!-- Features Section -->
+<section id="features" class="py-5">
+  <div class="container">
+    <div class="row g-4">
+      <!-- Administrador -->
+      <div class="col-md-4">
+        <div class="card h-100 shadow-sm border-0">
+          <div class="card-header bg-primary text-white">
+            <h4 class="my-2"><i class="bi bi-shield-lock me-2"></i>Administrador</h4>
+          </div>
+          <div class="card-body">
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item"><i class="bi bi-check-circle-fill text-success me-2"></i>Gestión total de empleados</li>
+              <li class="list-group-item"><i class="bi bi-check-circle-fill text-success me-2"></i>Control de permisos y usuarios</li>
+              <li class="list-group-item"><i class="bi bi-check-circle-fill text-success me-2"></i>Reportes y estadísticas</li>
+              <li class="list-group-item"><i class="bi bi-check-circle-fill text-success me-2"></i>Historial completo</li>
+              <li class="list-group-item"><i class="bi bi-check-circle-fill text-success me-2"></i>Comunicados institucionales</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Director -->
+      <div class="col-md-4">
+        <div class="card h-100 shadow-sm border-0">
+          <div class="card-header bg-info text-white">
+            <h4 class="my-2"><i class="bi bi-person-gear me-2"></i>Director Académico</h4>
+          </div>
+          <div class="card-body">
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item"><i class="bi bi-check-circle-fill text-info me-2"></i>Visualización de personal</li>
+              <li class="list-group-item"><i class="bi bi-check-circle-fill text-info me-2"></i>Asignación de materias</li>
+              <li class="list-group-item"><i class="bi bi-check-circle-fill text-info me-2"></i>Consulta de historial</li>
+              <li class="list-group-item"><i class="bi bi-check-circle-fill text-info me-2"></i>Aprobación de permisos</li>
+              <li class="list-group-item"><i class="bi bi-check-circle-fill text-info me-2"></i>Comunicados a docentes</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Personal -->
+      <div class="col-md-4">
+        <div class="card h-100 shadow-sm border-0">
+          <div class="card-header bg-warning text-dark">
+            <h4 class="my-2"><i class="bi bi-person-badge me-2"></i>Docente / Personal</h4>
+          </div>
+          <div class="card-body">
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item"><i class="bi bi-check-circle-fill text-warning me-2"></i>Registro de asistencia</li>
+              <li class="list-group-item"><i class="bi bi-check-circle-fill text-warning me-2"></i>Consulta de historial</li>
+              <li class="list-group-item"><i class="bi bi-check-circle-fill text-warning me-2"></i>Solicitud de permisos</li>
+              <li class="list-group-item"><i class="bi bi-check-circle-fill text-warning me-2"></i>Visualización de comunicados</li>
+              <li class="list-group-item"><i class="bi bi-check-circle-fill text-warning me-2"></i>Perfil personalizado</li>
+            </ul>
+          </div>
+        </div>
       </div>
     </div>
   </div>
+</section>
 
-  <!-- DIRECTOR -->
-  <div class="col-md-4">
-    <div class="card bg-dark text-light h-100 shadow">
-      <div class="card-body">
-        <h4 class="card-title text-primary">🔵 Director Académico</h4>
-        <ul>
-          <li>Visualiza personal académico</li>
-          <li>Asigna materias a docentes</li>
-          <li>Consulta historial docente</li>
-          <li>Envía comunicados a docentes</li>
-        </ul>
+<!-- About Section -->
+<section class="py-5 bg-light">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-lg-6">
+        <h2 class="fw-bold mb-4">Sistema de Control Personal ITB</h2>
+        <p class="lead">Una solución integral para la gestión del personal académico y administrativo del Instituto Técnico Brasil - Bolivia.</p>
+        <p>Desarrollado con tecnologías modernas para brindar seguridad, confiabilidad y facilidad de uso.</p>
+        <div class="d-flex gap-3 mt-4">
+          <div class="text-center">
+            <i class="bi bi-shield-check fs-1 text-primary"></i>
+            <p class="fw-bold mt-2">Seguro</p>
+          </div>
+          <div class="text-center">
+            <i class="bi bi-lightning-charge fs-1 text-primary"></i>
+            <p class="fw-bold mt-2">Rápido</p>
+          </div>
+          <div class="text-center">
+            <i class="bi bi-phone fs-1 text-primary"></i>
+            <p class="fw-bold mt-2">Responsivo</p>
+          </div>
+        </div>
       </div>
     </div>
   </div>
-
-  <!-- PERSONAL -->
-  <div class="col-md-4">
-    <div class="card bg-dark text-light h-100 shadow">
-      <div class="card-body">
-        <h4 class="card-title text-warning">🟡 Docente / Personal</h4>
-        <ul>
-          <li>Marca su asistencia</li>
-          <li>Consulta su historial</li>
-          <li>Solicita permisos</li>
-          <li>Lee comunicados recibidos</li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</div>
+</section>
 {% endblock %}

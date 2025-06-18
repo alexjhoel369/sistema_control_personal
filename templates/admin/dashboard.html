@@ -3,59 +3,194 @@
 {% block title %}Dashboard - Admin{% endblock %}
 
 {% block content %}
-<div class="container mt-4">
-  <h1 class="text-center">Bienvenido al Panel de Administración</h1>
-  <div class="row mt-4">
-    <!-- Módulos implementados -->
-    <div class="col-md-4 mb-3">
-      <a href="{{ url_for('admin.roles') }}" class="btn btn-primary w-100 py-3">
-        <i class="bi bi-people-fill me-2"></i>Gestionar Roles
-      </a>
+<div class="container py-4 content-wrapper">
+
+  <!-- Encabezado -->
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+      <h1 class="h3 mb-1">Bienvenido, Administrador</h1>
+      <p class="text-muted mb-0">Panel de control del sistema de gestión de personal</p>
     </div>
-    <div class="col-md-4 mb-3">
-      <a href="{{ url_for('admin.usuarios') }}" class="btn btn-primary w-100 py-3">
-        <i class="bi bi-person-gear me-2"></i>Gestionar Usuarios
-      </a>
+  </div>
+
+  <!-- Tarjetas resumen -->
+  <div class="row g-3 mb-4">
+    <div class="col-md-3 col-6">
+      <div class="card card-hover h-100">
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-center">
+            <div>
+              <h6 class="text-muted">Empleados</h6>
+              <h3 class="fw-bold">{{ total_empleados }}</h3>
+            </div>
+            <div class="bg-primary bg-opacity-10 p-3 rounded">
+              <i class="bi bi-people-fill text-primary fs-3"></i>
+            </div>
+          </div>
+        </div>
+        <div class="card-footer bg-transparent border-0">
+          <a href="{{ url_for('admin.empleados') }}" class="text-decoration-none small">Ver todos <i class="bi bi-arrow-right"></i></a>
+        </div>
+      </div>
     </div>
-    <div class="col-md-4 mb-3">
-      <a href="{{ url_for('admin.cargos') }}" class="btn btn-primary w-100 py-3">
-        <i class="bi bi-briefcase-fill me-2"></i>Gestionar Cargos
-      </a>
+
+    <div class="col-md-3 col-6">
+      <div class="card card-hover h-100">
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-center">
+            <div>
+              <h6 class="text-muted">Asistencias hoy</h6>
+              <h3 class="fw-bold">{{ asistencias_hoy }}</h3>
+            </div>
+            <div class="bg-success bg-opacity-10 p-3 rounded">
+              <i class="bi bi-calendar-check-fill text-success fs-3"></i>
+            </div>
+          </div>
+        </div>
+        <div class="card-footer bg-transparent border-0">
+          <a href="{{ url_for('admin.asistencias') }}" class="text-decoration-none small">Ver reporte <i class="bi bi-arrow-right"></i></a>
+        </div>
+      </div>
     </div>
-    <div class="col-md-4 mb-3">
-      <a href="{{ url_for('admin.empleados') }}" class="btn btn-primary w-100 py-3">
-        <i class="bi bi-person-vcard-fill me-2"></i>Gestionar Empleados
-      </a>
+
+    <div class="col-md-3 col-6">
+      <div class="card card-hover h-100">
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-center">
+            <div>
+              <h6 class="text-muted">Licencias pendientes</h6>
+              <h3 class="fw-bold">{{ licencias_pendientes }}</h3>
+            </div>
+            <div class="bg-warning bg-opacity-10 p-3 rounded">
+              <i class="bi bi-file-earmark-text-fill text-warning fs-3"></i>
+            </div>
+          </div>
+        </div>
+        <div class="card-footer bg-transparent border-0">
+          <a href="{{ url_for('licencia_aprobada.index') }}" class="text-decoration-none small">Revisar <i class="bi bi-arrow-right"></i></a>
+        </div>
+      </div>
     </div>
-    <div class="col-md-4 mb-3">
-      <a href="{{ url_for('admin.asistencias') }}" class="btn btn-primary w-100 py-3">
-        <i class="bi bi-calendar-check-fill me-2"></i>Gestionar Asistencias
-      </a>
+
+    <div class="col-md-3 col-6">
+      <div class="card card-hover h-100">
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-center">
+            <div>
+              <h6 class="text-muted">Comunicados</h6>
+              <h3 class="fw-bold">{{ total_comunicados }}</h3>
+            </div>
+            <div class="bg-info bg-opacity-10 p-3 rounded">
+              <i class="bi bi-megaphone-fill text-info fs-3"></i>
+            </div>
+          </div>
+        </div>
+        <div class="card-footer bg-transparent border-0">
+          <a href="{{ url_for('admin.comunicados') }}" class="text-decoration-none small">Ver todos <i class="bi bi-arrow-right"></i></a>
+        </div>
+      </div>
     </div>
-    <div class="col-md-4 mb-3">
-      <a href="{{ url_for('admin.permisos') }}" class="btn btn-primary w-100 py-3">
-        <i class="bi bi-file-earmark-text-fill me-2"></i>Solicitud de Licencia 
-      </a>
+  </div>
+
+  <!-- Accesos rápidos -->
+  <div class="card card-hover mb-4">
+    <div class="card-header bg-white border-bottom">
+      <h5 class="mb-0">Accesos rápidos</h5>
     </div>
-    <div class="col-md-4 mb-3">
-      <a href="{{ url_for('admin.comunicados') }}" class="btn btn-primary w-100 py-3">
-        <i class="bi bi-megaphone-fill me-2"></i>Gestionar Comunicados
-      </a>
+    <div class="card-body pt-3">
+      <div class="row g-3">
+        <div class="col-md-3 col-6">
+          <a href="{{ url_for('admin.empleados') }}" class="btn btn-light btn-module w-100 text-start p-3">
+            <div class="d-flex align-items-center">
+              <div class="bg-primary bg-opacity-10 p-2 rounded me-3">
+                <i class="bi bi-person-vcard-fill text-primary fs-4"></i>
+              </div>
+              <span>Empleados</span>
+            </div>
+          </a>
+        </div>
+
+        <div class="col-md-3 col-6">
+          <a href="{{ url_for('admin.asistencias') }}" class="btn btn-light btn-module w-100 text-start p-3">
+            <div class="d-flex align-items-center">
+              <div class="bg-success bg-opacity-10 p-2 rounded me-3">
+                <i class="bi bi-calendar-check-fill text-success fs-4"></i>
+              </div>
+              <span>Asistencias</span>
+            </div>
+          </a>
+        </div>
+
+        <div class="col-md-3 col-6">
+          <a href="{{ url_for('solicitud_licencia.index') }}" class="btn btn-light btn-module w-100 text-start p-3">
+            <div class="d-flex align-items-center">
+              <div class="bg-warning bg-opacity-10 p-2 rounded me-3">
+                <i class="bi bi-file-earmark-text-fill text-warning fs-4"></i>
+              </div>
+              <span>Licencias</span>
+            </div>
+          </a>
+        </div>
+
+        <div class="col-md-3 col-6">
+          <a href="{{ url_for('admin.comunicados') }}" class="btn btn-light btn-module w-100 text-start p-3">
+            <div class="d-flex align-items-center">
+              <div class="bg-info bg-opacity-10 p-2 rounded me-3">
+                <i class="bi bi-megaphone-fill text-info fs-4"></i>
+              </div>
+              <span>Comunicados</span>
+            </div>
+          </a>
+        </div>
+      </div>
     </div>
-    <div class="col-md-4 mb-3">
-      <a href="{{ url_for('admin.materias') }}" class="btn btn-primary w-100 py-3">
-        <i class="bi bi-journal-bookmark-fill me-2"></i>Tipo de Licencias
-      </a>
+  </div>
+
+  <!-- Últimas actividades -->
+  <div class="row g-3">
+    <div class="col-md-6">
+      <div class="card card-hover h-100">
+        <div class="card-header bg-white border-bottom">
+          <h5 class="mb-0">Últimas asistencias</h5>
+        </div>
+        <div class="card-body">
+          {% for asistencia in ultimas_asistencias %}
+          <div class="list-group-item px-0 py-2 border-0">
+            <div class="d-flex justify-content-between align-items-center">
+              <div>
+                <h6 class="mb-0">{{ asistencia.empleado.nombre }} {{ asistencia.empleado.apellido }}</h6>
+                <small class="text-muted">
+                  {{ asistencia.hora_entrada.strftime('%H:%M') if asistencia.hora_entrada else 'Sin hora' }}
+                  - {{ asistencia.fecha.strftime('%d/%m/%Y') }}
+                </small>
+              </div>
+              <span class="badge bg-success bg-opacity-10 text-success">Puntual</span>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
     </div>
-    <div class="col-md-4 mb-3">
-      <a href="{{ url_for('admin.materias_asignadas') }}" class="btn btn-primary w-100 py-3">
-        <i class="bi bi-journal-check me-2"></i>Licencia Aprobadas
-      </a>
-    </div>
-    <div class="col-md-4 mb-3">
-      <a href="{{ url_for('admin.historiales') }}" class="btn btn-primary w-100 py-3">
-        <i class="bi bi-clock-history me-2"></i>Historial Laboral
-      </a>
+
+    <div class="col-md-6">
+      <div class="card card-hover h-100">
+        <div class="card-header bg-white border-bottom">
+          <h5 class="mb-0">Licencias recientes</h5>
+        </div>
+        <div class="card-body">
+          {% for licencia in licencias_recientes %}
+          <div class="list-group-item px-0 py-2 border-0">
+            <div class="d-flex justify-content-between align-items-center">
+              <div>
+                <h6 class="mb-0">{{ licencia.tipo_licencia.nombre }}</h6>
+                <small class="text-muted">Solicitado por: {{ licencia.empleado.nombre }} {{ licencia.empleado.apellido }}</small>
+              </div>
+              <span class="badge bg-opacity-10 text-dark bg-light">{{ licencia.estado }}</span>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
     </div>
   </div>
 </div>

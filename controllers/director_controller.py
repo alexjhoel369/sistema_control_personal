@@ -1,6 +1,11 @@
 from flask import Blueprint, redirect, url_for, session, flash
 from views.director_view import render_dashboard
 from .auth_controller import login_required
+from models.empleado_model import Empleado
+from models.solicitud_licencia_model import SolicitudLicencia
+from models.licencia_aprobada_model import LicenciaAprobada
+
+from models.comunicado_model import Comunicado
 
 # Crear Blueprint para el director
 director_bp = Blueprint("director", __name__, url_prefix="/director")
@@ -16,7 +21,15 @@ def verificar_acceso():
 # Ruta principal del dashboard
 @director_bp.route("/")
 def dashboard():
-    return render_dashboard()
+    total_empleados = Empleado.query.count()
+    licencias_pendientes = LicenciaAprobada.query.filter_by(estado='Pendiente').count()
+    total_comunicados = Comunicado.query.count()
+
+    return render_dashboard(
+        total_empleados=total_empleados,
+        licencias_pendientes=licencias_pendientes,
+        total_comunicados=total_comunicados
+    )
 
 @director_bp.route("/comunicados/")
 def comunicados():

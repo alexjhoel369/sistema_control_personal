@@ -7,7 +7,7 @@ from datetime import datetime, date
 from sqlalchemy import and_
 
 # 👉 Dashboard principal
-def dashboard():
+def dashboard(licencias_pendientes=0):
     usuario_id = session.get("user_id")
     usuario = Usuario.get_by_id(usuario_id)
 
@@ -23,6 +23,7 @@ def dashboard():
     rol_usuario = usuario.rol.rol.strip().lower()  # Para evitar errores con espacios o mayúsculas
 
     return render_template("personal/dashboard.html",
+                           licencias_pendientes=licencias_pendientes,
                            empleado=empleado,
                            rol_usuario=rol_usuario,
                            fecha_actual=datetime.now().strftime('%d/%m/%Y'))

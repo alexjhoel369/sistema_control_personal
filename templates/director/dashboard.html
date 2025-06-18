@@ -3,40 +3,143 @@
 {% block title %}Dashboard - Director{% endblock %}
 
 {% block content %}
-<div class="container mt-4">
-  <h1 class="text-center">Bienvenido al Panel de Dirección</h1>
-  <div class="row mt-4">
-    
-    <div class="col-md-4 mb-3">
-      <a href="{{ url_for('director.empleados') }}" class="btn btn-primary w-100 py-3">
-        <i class="bi bi-person-vcard-fill me-2"></i> Vista Empleados
-      </a>
+<div class="container py-4">
+  <!-- Encabezado de bienvenida -->
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+      <h1 class="h3 mb-1">Bienvenido, Director</h1>
+      <p class="text-muted mb-0">Panel de control del sistema de gestión educativa</p>
+    </div>
+    <div class="d-flex gap-2">
+      <button class="btn btn-outline-secondary">
+        <i class="bi bi-question-circle"></i> Ayuda
+      </button>
+    </div>
+  </div>
+
+  <!-- Tarjetas resumen -->
+  <div class="row g-3 mb-4">
+    <div class="col-md-4 col-6">
+      <div class="card h-100 shadow-sm card-hover">
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-center">
+            <div>
+              <h6 class="text-muted">Empleados</h6>
+              <h3 class="fw-bold">{{ total_empleados }}</h3>
+            </div>
+            <div class="bg-primary bg-opacity-10 p-3 rounded">
+              <i class="bi bi-people-fill text-primary fs-3"></i>
+            </div>
+          </div>
+        </div>
+        <div class="card-footer bg-transparent border-0">
+          <a href="{{ url_for('director.empleados') }}" class="text-decoration-none small">Ver todos <i class="bi bi-arrow-right"></i></a>
+        </div>
+      </div>
     </div>
 
-    <div class="col-md-4 mb-3">
-      <a href="{{ url_for('director.comunicados') }}" class="btn btn-primary w-100 py-3">
-        <i class="bi bi-megaphone-fill me-2"></i> Gestionar Comunicados
-      </a>
+    <div class="col-md-4 col-6">
+      <div class="card h-100 shadow-sm card-hover">
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-center">
+            <div>
+              <h6 class="text-muted">Licencias Pendientes</h6>
+              <h3 class="fw-bold">{{ licencias_pendientes }}</h3>
+            </div>
+            <div class="bg-warning bg-opacity-10 p-3 rounded">
+              <i class="bi bi-file-earmark-text-fill text-warning fs-3"></i>
+            </div>
+          </div>
+        </div>
+        <div class="card-footer bg-transparent border-0">
+          <a href="{{ url_for('solicitud_licencia_director.index_director') }}" class="text-decoration-none small">Revisar <i class="bi bi-arrow-right"></i></a>
+        </div>
+      </div>
     </div>
 
-    <div class="col-md-4 mb-3">
-      <a href="{{ url_for('director.historiales') }}" class="btn btn-primary w-100 py-3">
-        <i class="bi bi-clock-history me-2"></i> Consultar Historial Laboral
-      </a>
+    <div class="col-md-4 col-6">
+      <div class="card h-100 shadow-sm card-hover">
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-center">
+            <div>
+              <h6 class="text-muted">Comunicados</h6>
+              <h3 class="fw-bold">{{ total_comunicados }}</h3>
+            </div>
+            <div class="bg-info bg-opacity-10 p-3 rounded">
+              <i class="bi bi-megaphone-fill text-info fs-3"></i>
+            </div>
+          </div>
+        </div>
+        <div class="card-footer bg-transparent border-0">
+          <a href="{{ url_for('director.comunicados') }}" class="text-decoration-none small">Ver todos <i class="bi bi-arrow-right"></i></a>
+        </div>
+      </div>
     </div>
+  </div>
 
-    <div class="col-md-4 mb-3">
-      <a href="{{ url_for('director.licencias_aprobadas') }}" class="btn btn-success w-100 py-3">
-        <i class="bi bi-check-circle-fill me-2"></i> Licencias Aprobadas
-      </a>
+  <!-- Accesos rápidos -->
+  <div class="card mb-4 shadow-sm">
+    <div class="card-header bg-white border-bottom">
+      <h5 class="mb-0">Accesos rápidos</h5>
     </div>
+    <div class="card-body pt-3">
+      <div class="row g-3">
+        <div class="col-md-4 col-6">
+          <a href="{{ url_for('director.empleados') }}" class="btn btn-light border w-100 text-start p-3 btn-module">
+            <div class="d-flex align-items-center">
+              <div class="bg-primary bg-opacity-10 p-2 rounded me-3">
+                <i class="bi bi-people-fill text-primary fs-4"></i>
+              </div>
+              <span>Empleados</span>
+            </div>
+          </a>
+        </div>
 
-    <div class="col-md-4 mb-3">
-      <a href="{{ url_for('director.permisos') }}" class="btn btn-warning w-100 py-3">
-        <i class="bi bi-journal-text me-2"></i> Solicitudes de Licencia
-      </a>
+        <div class="col-md-4 col-6">
+          <a href="{{ url_for('director.comunicados') }}" class="btn btn-light border w-100 text-start p-3 btn-module">
+            <div class="d-flex align-items-center">
+              <div class="bg-info bg-opacity-10 p-2 rounded me-3">
+                <i class="bi bi-megaphone-fill text-info fs-4"></i>
+              </div>
+              <span>Comunicados</span>
+            </div>
+          </a>
+        </div>
+
+        <div class="col-md-4 col-6">
+          <a href="{{ url_for('solicitud_licencia_director.index_director') }}" class="btn btn-light border w-100 text-start p-3 btn-module">
+            <div class="d-flex align-items-center">
+              <div class="bg-warning bg-opacity-10 p-2 rounded me-3">
+                <i class="bi bi-file-earmark-text-fill text-warning fs-4"></i>
+              </div>
+              <span>Solicitudes Licencia</span>
+            </div>
+          </a>
+        </div>
+
+        <div class="col-md-4 col-6">
+          <a href="{{ url_for('licencia_aprobada_director.index_director') }}" class="btn btn-light border w-100 text-start p-3 btn-module">
+            <div class="d-flex align-items-center">
+              <div class="bg-success bg-opacity-10 p-2 rounded me-3">
+                <i class="bi bi-check-circle-fill text-success fs-4"></i>
+              </div>
+              <span>Licencias Aprobadas</span>
+            </div>
+          </a>
+        </div>
+
+        <div class="col-md-4 col-6">
+          <a href="{{ url_for('director.historiales') }}" class="btn btn-light border w-100 text-start p-3 btn-module">
+            <div class="d-flex align-items-center">
+              <div class="bg-secondary bg-opacity-10 p-2 rounded me-3">
+                <i class="bi bi-clock-history text-secondary fs-4"></i>
+              </div>
+              <span>Historial Laboral</span>
+            </div>
+          </a>
+        </div>
+      </div>
     </div>
-
   </div>
 </div>
 {% endblock %}

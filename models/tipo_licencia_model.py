@@ -7,7 +7,6 @@ class TipoLicencia(db.Model):
     nombre = db.Column(db.String(100), nullable=False)
     descripcion = db.Column(db.String(200))
 
-    licencias_aprobadas = db.relationship('LicenciaAprobada', back_populates='tipo_licencia', cascade='all, delete-orphan')
     solicitudes = db.relationship('SolicitudLicencia', back_populates='tipo_licencia', cascade='all, delete-orphan')
 
     def __init__(self, nombre, descripcion=None):

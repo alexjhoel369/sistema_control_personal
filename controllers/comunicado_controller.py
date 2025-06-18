@@ -3,6 +3,7 @@ from models.comunicado_model import Comunicado
 from models.usuario_model import Usuario
 from views import comunicado_view
 from datetime import datetime
+from flask import session, flash
 
 comunicado_bp = Blueprint('comunicado', __name__, url_prefix='/comunicados')
 comunicado_director_bp = Blueprint('comunicado_director', __name__, url_prefix='/director/comunicados')
@@ -15,19 +16,23 @@ def index():
 
 @comunicado_bp.route('/create', methods=['GET', 'POST'])
 def create():
-    from models.usuario_model import Usuario  
     if request.method == 'POST':
         titulo = request.form['titulo']
         contenido = request.form['contenido']
         fecha_publicacion = Comunicado.convert_to_date(request.form.get('fecha_publicacion'))
-        usuario_id = request.form['usuario_id']
-
+        
+        usuario_id = session.get('user_id')  # <-- aquí se obtiene de la sesión
+        
+        if not usuario_id:
+            flash("Debe iniciar sesión para crear un comunicado", "danger")
+            return redirect(url_for('auth.login'))
+        
         comunicado = Comunicado(titulo, contenido, fecha_publicacion, usuario_id)
         comunicado.save()
         return redirect(url_for('comunicado.index'))
 
-    usuarios = Usuario.query.all()
-    return comunicado_view.create(usuarios=usuarios)
+    # No necesitas enviar usuarios a la vista porque ya no hay select
+    return comunicado_view.create()
 
 @comunicado_bp.route('/edit/<int:id>', methods=['GET', 'POST'])
 def edit(id):
@@ -40,18 +45,16 @@ def edit(id):
         titulo = request.form['titulo']
         contenido = request.form['contenido']
         fecha_publicacion = Comunicado.convert_to_date(request.form.get('fecha_publicacion'))
-        usuario_id = request.form['usuario_id']
 
         comunicado.update(
             titulo=titulo,
             contenido=contenido,
             fecha_publicacion=fecha_publicacion,
-            usuario_id=usuario_id
         )
         return redirect(url_for('comunicado.index'))
 
     usuarios = Usuario.query.all()
-    return comunicado_view.edit(comunicado=comunicado, usuarios=usuarios)
+    return comunicado_view.edit(comunicado=comunicado)
 
 @comunicado_bp.route('/delete/<int:id>')
 def delete(id):
@@ -73,14 +76,18 @@ def create_director():
         titulo = request.form['titulo']
         contenido = request.form['contenido']
         fecha_publicacion = Comunicado.convert_to_date(request.form.get('fecha_publicacion'))
-        usuario_id = request.form['usuario_id']
-
+        
+        usuario_id = session.get('user_id')
+        
+        if not usuario_id:
+            flash("Debe iniciar sesión para crear un comunicado", "danger")
+            return redirect(url_for('auth.login'))
+        
         comunicado = Comunicado(titulo, contenido, fecha_publicacion, usuario_id)
         comunicado.save()
         return redirect(url_for('comunicado_director.index_director'))
 
-    usuarios = Usuario.query.all()
-    return comunicado_view.director_create(usuarios=usuarios)
+    return comunicado_view.director_create()
 
 @comunicado_director_bp.route('/edit/<int:id>', methods=['GET', 'POST'])
 def edit_director(id):
@@ -92,15 +99,13 @@ def edit_director(id):
         titulo = request.form['titulo']
         contenido = request.form['contenido']
         fecha_publicacion = Comunicado.convert_to_date(request.form.get('fecha_publicacion'))
-        usuario_id = request.form['usuario_id']
 
         comunicado.update(
             titulo=titulo,
             contenido=contenido,
             fecha_publicacion=fecha_publicacion,
-            usuario_id=usuario_id
         )
         return redirect(url_for('comunicado_director.index_director'))
 
     usuarios = Usuario.query.all()
-    return comunicado_view.director_edit(comunicado=comunicado, usuarios=usuarios)
+    return comunicado_view.director_edit(comunicado=comunicado)

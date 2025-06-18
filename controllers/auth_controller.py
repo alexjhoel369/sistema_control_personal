@@ -29,7 +29,7 @@ def register():
         apellido = request.form["apellido"]
         email = request.form["email"]
         telefono = request.form["telefono"]
-        fecha_str = request.form["fecha"]
+        fecha_str = request.form["fecha_nacimiento"]
 
         rol_id = 3  # Invitado por defecto
         cargo_id = 1  # "Sin asignación"

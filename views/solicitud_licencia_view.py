@@ -23,9 +23,11 @@ def director_edit(solicitud, empleados, tipos):
     return render_template('director/solicitud_licencias/edit.html', solicitud=solicitud, empleados=empleados, tipos=tipos)
 
 # ---------------------- PERSONAL ----------------------
-
 def personal_list(solicitudes):
     return render_template('personal/solicitud_licencias/index.html', solicitudes=solicitudes)
 
-def personal_create(tipos, fecha_actual):
+def personal_create( tipos, fecha_actual):
     return render_template('personal/solicitud_licencias/create.html', tipos=tipos, fecha_actual=fecha_actual)
+
+def personal_edit(solicitud, tipos):
+    return render_template('personal/solicitud_licencias/edit.html', solicitud=solicitud, tipos=tipos)
