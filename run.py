@@ -27,9 +27,11 @@ app.config["SECRET_KEY"] = "miclavesecreta"
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///control_personalv1.db"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
-#------------------------------------------------------
+
 #------------------------------------------------------
 db.init_app(app)
+#------------------------------------------------------
+
 
 #-------------------------admin----------------------------
 app.register_blueprint(usuario_controller.usuario_bp)

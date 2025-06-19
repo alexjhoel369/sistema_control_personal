@@ -11,7 +11,7 @@ def edit(comunicado ):
     return render_template('admin/comunicado/edit.html', comunicado=comunicado)
 
 
-#----------
+#----------director--------
 
 def director_list(comunicados):
     return render_template("director/comunicado/index.html", comunicados=comunicados)
@@ -22,7 +22,7 @@ def director_create():
 def director_edit(comunicado):
     return render_template("director/comunicado/edit.html", comunicado=comunicado)
 
-#-----------
+#-----------personal-------
 
 
 def personal_list(comunicados):
