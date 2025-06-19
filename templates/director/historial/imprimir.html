@@ -4,19 +4,32 @@
 
 {% block content %}
 <div class="container py-4">
-    <div class="d-flex justify-content-between align-items-center mb-4">
+
+    <!-- Encabezado institucional -->
+    <div class="d-flex align-items-center justify-content-between mb-4 print-header">
         <div>
-            <h1 class="h3 mb-1">Historial laboral</h1>
-            <p class="text-muted mb-0">{{ empleado.nombre }} {{ empleado.apellido }}</p>
+            <img src="{{ url_for('static', filename='images/logo_itb.jpg') }}" alt="Logo" style="height: 90px; width: 90px; border-radius: 50%;">
         </div>
-        <div class="d-flex gap-2">
-            <a href="#" onclick="window.print();" class="btn btn-outline-primary no-print">
-                <i class="bi bi-printer-fill"></i> Imprimir
-            </a>
-            <a href="{{ url_for('historial_director.index_director') }}" class="btn btn-outline-secondary no-print">
-                <i class="bi bi-arrow-left"></i> Volver
-            </a>
+        <div class="text-center flex-grow-1">
+            <h2 class="mb-0 fw-bold">Instituto Tecnológico Industrial Brasil-Bolivia</h2>
         </div>
+        <div style="width: 90px;"></div> <!-- espacio simétrico al logo -->
+    </div>
+
+    <!-- Título -->
+    <div class="text-center mb-4">
+        <h1 class="h3">Historial Laboral</h1>
+        <p class="text-muted">{{ empleado.nombre }} {{ empleado.apellido }}</p>
+    </div>
+
+    <!-- Botones -->
+    <div class="d-flex justify-content-end gap-2 mb-3 no-print">
+        <a href="#" onclick="window.print();" class="btn btn-outline-primary">
+            <i class="bi bi-printer-fill"></i> Imprimir
+        </a>
+        <a href="{{ url_for('historial.index') }}" class="btn btn-outline-secondary">
+            <i class="bi bi-arrow-left"></i> Volver
+        </a>
     </div>
 
     <!-- Información básica del empleado -->
@@ -32,12 +45,10 @@
                 </div>
                 <div class="col-md-6">
                     <p><strong><i class="bi bi-telephone me-2"></i>Teléfono:</strong> {{ empleado.telefono }}</p>
-                    <p><strong><i class="bi bi-calendar-date me-2"></i>Fecha de Registro:</strong> {{
-                        empleado.fecha.strftime('%Y-%m-%d') }}</p>
+                    <p><strong><i class="bi bi-calendar-date me-2"></i>Fecha de Registro:</strong> {{ empleado.fecha.strftime('%Y-%m-%d') }}</p>
                 </div>
             </div>
-            <p class="mb-0"><strong><i class="bi bi-briefcase me-2"></i>Cargo actual:</strong> {{ empleado.cargo.cargo
-                if empleado.cargo else 'Sin cargo asignado' }}</p>
+            <p class="mb-0"><strong><i class="bi bi-briefcase me-2"></i>Cargo actual:</strong> {{ empleado.cargo.cargo if empleado.cargo else 'Sin cargo asignado' }}</p>
         </div>
     </div>
 
@@ -63,7 +74,7 @@
         </div>
     </div>
 
-    <!-- Asistencias registradas -->
+    <!-- Asistencias -->
     <div class="card shadow-sm mb-4">
         <div class="card-header bg-white">
             <h5 class="mb-0"><i class="bi bi-calendar-check me-2"></i>Asistencias registradas</h5>
@@ -71,7 +82,7 @@
         <div class="card-body">
             {% if asistencias %}
             <div class="table-responsive">
-                <table class="table table-hover">
+                <table class="table table-bordered">
                     <thead>
                         <tr>
                             <th>Fecha</th>
@@ -83,8 +94,7 @@
                         {% for asistencia in asistencias %}
                         <tr>
                             <td>{{ asistencia.fecha.strftime('%Y-%m-%d') if asistencia.fecha else 'Sin fecha' }}</td>
-                            <td>{{ asistencia.hora_entrada.strftime('%H:%M') if asistencia.hora_entrada else 'N/A' }}
-                            </td>
+                            <td>{{ asistencia.hora_entrada.strftime('%H:%M') if asistencia.hora_entrada else 'N/A' }}</td>
                             <td>{{ asistencia.hora_salida.strftime('%H:%M') if asistencia.hora_salida else 'N/A' }}</td>
                         </tr>
                         {% endfor %}
@@ -99,45 +109,6 @@
         </div>
     </div>
 
-    <!-- Licencias aprobadas -->
-    <div class="card shadow-sm mb-4">
-        <div class="card-header bg-white">
-            <h5 class="mb-0"><i class="bi bi-file-earmark-check me-2"></i>Licencias aprobadas</h5>
-        </div>
-        <div class="card-body">
-            {% if licencias_aprobadas %}
-            <div class="table-responsive">
-                <table class="table table-hover">
-                    <thead>
-                        <tr>
-                            <th>Estado</th>
-                            <th>Fecha solicitud</th>
-                            <th>Motivo</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for licencia in licencias_aprobadas %}
-                        <tr>
-                            <td><span class="badge bg-success">{{ licencia.estado if licencia.estado else 'Pendiente'
-                                    }}</span></td>
-                            <td>{{ licencia.solicitud_licencia.fecha_solicitud.strftime('%Y-%m-%d') if
-                                licencia.solicitud_licencia and licencia.solicitud_licencia.fecha_solicitud else 'Sin
-                                fecha' }}</td>
-                            <td>{{ licencia.solicitud_licencia.motivo if licencia.solicitud_licencia and
-                                licencia.solicitud_licencia.motivo else 'N/A' }}</td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </div>
-            {% else %}
-            <div class="alert alert-info mb-0">
-                <i class="bi bi-info-circle me-2"></i>No hay licencias aprobadas
-            </div>
-            {% endif %}
-        </div>
-    </div>
-
     <!-- Solicitudes de licencia -->
     <div class="card shadow-sm mb-4">
         <div class="card-header bg-white">
@@ -146,7 +117,7 @@
         <div class="card-body">
             {% if solicitudes_licencia %}
             <div class="table-responsive">
-                <table class="table table-hover">
+                <table class="table table-bordered">
                     <thead>
                         <tr>
                             <th>Fecha solicitud</th>
@@ -159,12 +130,9 @@
                     <tbody>
                         {% for solicitud in solicitudes_licencia %}
                         <tr>
-                            <td>{{ solicitud.fecha_solicitud.strftime('%Y-%m-%d') if solicitud.fecha_solicitud else 'Sin
-                                fecha' }}</td>
-                            <td>{{ solicitud.fecha_inicio.strftime('%Y-%m-%d') if solicitud.fecha_inicio else 'No
-                                definido' }}</td>
-                            <td>{{ solicitud.fecha_fin.strftime('%Y-%m-%d') if solicitud.fecha_fin else 'No definido' }}
-                            </td>
+                            <td>{{ solicitud.fecha_solicitud.strftime('%Y-%m-%d') if solicitud.fecha_solicitud else 'Sin fecha' }}</td>
+                            <td>{{ solicitud.fecha_inicio.strftime('%Y-%m-%d') if solicitud.fecha_inicio else 'No definido' }}</td>
+                            <td>{{ solicitud.fecha_fin.strftime('%Y-%m-%d') if solicitud.fecha_fin else 'No definido' }}</td>
                             <td>{{ solicitud.tipo_licencia.nombre if solicitud.tipo_licencia else 'No definido' }}</td>
                             <td>{{ solicitud.motivo if solicitud.motivo else 'N/A' }}</td>
                         </tr>
@@ -180,6 +148,40 @@
         </div>
     </div>
 
+    <!-- Licencias aprobadas -->
+    <div class="card shadow-sm mb-4">
+        <div class="card-header bg-white">
+            <h5 class="mb-0"><i class="bi bi-file-earmark-check me-2"></i>Licencias aprobadas</h5>
+        </div>
+        <div class="card-body">
+            {% if licencias_aprobadas %}
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Estado</th>
+                            <th>Fecha solicitud</th>
+                            <th>Motivo</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for licencia in licencias_aprobadas %}
+                        <tr>
+                            <td><span class="badge bg-success">{{ licencia.estado if licencia.estado else 'Pendiente' }}</span></td>
+                            <td>{{ licencia.solicitud_licencia.fecha_solicitud.strftime('%Y-%m-%d') if licencia.solicitud_licencia and licencia.solicitud_licencia.fecha_solicitud else 'Sin fecha' }}</td>
+                            <td>{{ licencia.solicitud_licencia.motivo if licencia.solicitud_licencia and licencia.solicitud_licencia.motivo else 'N/A' }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+            <div class="alert alert-info mb-0">
+                <i class="bi bi-info-circle me-2"></i>No hay licencias aprobadas
+            </div>
+            {% endif %}
+        </div>
+    </div>
 
     <!-- Historial laboral -->
     <div class="card shadow-sm mb-4">
@@ -189,7 +191,7 @@
         <div class="card-body">
             {% if historial_laboral %}
             <div class="table-responsive">
-                <table class="table table-hover">
+                <table class="table table-bordered">
                     <thead>
                         <tr>
                             <th>Cargo</th>
@@ -215,23 +217,54 @@
             {% endif %}
         </div>
     </div>
+
 </div>
 
 <style>
-    @media print {
-        .no-print {
-            display: none !important;
-        }
-
-        body {
-            padding: 0;
-            font-size: 11pt;
-        }
-
-        .card {
-            border: 1px solid #ddd;
-            page-break-inside: avoid;
-        }
+@media print {
+    .no-print {
+        display: none !important;
     }
+    body {
+        padding: 20px;
+        font-size: 11pt;
+        background: #fff;
+        color: #000;
+    }
+    .card {
+        border: 1px solid #888;
+        page-break-inside: avoid;
+        margin-bottom: 20px;
+    }
+    .card-header {
+        background-color: #eee !important;
+        font-weight: bold;
+        font-size: 13pt;
+    }
+    .table {
+        border-collapse: collapse !important;
+        width: 100%;
+    }
+    .table th,
+    .table td {
+        border: 1px solid #ccc !important;
+        padding: 6px 8px !important;
+        text-align: left;
+    }
+    .badge {
+        font-size: 10pt !important;
+    }
+    .print-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+}
+@media print {
+    header, .sidebar, nav.navbar, .navbar, .footer {
+        display: none !important;
+    }
+}
+
 </style>
 {% endblock %}
