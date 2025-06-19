@@ -14,9 +14,8 @@ class Empleado(db.Model):
     fecha = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     cargo_id = db.Column(db.Integer, db.ForeignKey('cargos.id'), nullable=False)
 
-    # Relaciones
     cargo = db.relationship('Cargo', back_populates='empleados')
-    usuarios = db.relationship('Usuario', back_populates='empleado', uselist=False)  # mantener el nombre "usuarios"
+    usuarios = db.relationship('Usuario', back_populates='empleado', uselist=False) 
     asistencias = db.relationship('Asistencia', back_populates='empleado', cascade='all, delete-orphan')
     historial_laboral = db.relationship('Historial', back_populates='empleado', cascade='all, delete-orphan')
     licencias_aprobadas = db.relationship('LicenciaAprobada', back_populates='empleado', cascade='all, delete-orphan')

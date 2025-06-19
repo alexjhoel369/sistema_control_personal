@@ -16,7 +16,6 @@ class SolicitudLicencia(db.Model):
     tipo_licencia = db.relationship('TipoLicencia', back_populates='solicitudes')
     licencia_aprobada = db.relationship('LicenciaAprobada', back_populates='solicitud_licencia', uselist=False)
 
-
     def __init__(self, fecha_solicitud, fecha_inicio, fecha_fin, motivo, empleado_id, tipo_licencia_id):
         self.fecha_solicitud = fecha_solicitud
         self.fecha_inicio = fecha_inicio
