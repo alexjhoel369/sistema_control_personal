@@ -15,7 +15,7 @@ from datetime import datetime, date
 personal_bp = Blueprint("personal", __name__, url_prefix="/personal")
 
 
-# Middleware: acceso solo para el rol "personal"
+# acceso solo para el rol "personal"
 @personal_bp.before_request
 @login_required
 def verificar_acceso():
@@ -44,8 +44,6 @@ def dashboard():
         licencias_pendientes=licencias_pendientes,
     )
 
-
-# Ver perfil personal
 @personal_bp.route("/mi_perfil/")
 def mi_perfil():
     usuario_id = session.get("user_id")
@@ -61,21 +59,14 @@ def mi_perfil():
 
     return personal_view.mi_perfil(empleado)
 
-
-# Marcar asistencia
 @personal_bp.route("/asistencia/marcar", methods=["GET", "POST"])
 def marcar_asistencia():
     return personal_view.marcar_asistencia()
 
-
-# Ver historial de asistencias
 @personal_bp.route("/asistencia/historial")
 def asistencia():
     return personal_view.ver_historial_asistencia()
 
-
-# Ver solicitudes de licencia personal
-#---------------------
 @personal_bp.route("/solicitud_licencias/")
 def permisos():
     return redirect(url_for("solicitud_licencia_personal.index_personal"))
@@ -84,14 +75,11 @@ def permisos():
 def licencias_aprobadas():
     return redirect(url_for("licencia_aprobada_personal.index_por_estado", estado="Aprobada"))
 
-# Ver comunicados
 @personal_bp.route("/comunicados/", methods=["GET"])
 def comunicados():
     comunicados = Comunicado.get_all()
     return comunicado_view.personal_list(comunicados)
 
-
-# Ver historial laboral
 @personal_bp.route("/historial", methods=["GET"])
 def historial():
     usuario_id = session.get("user_id")

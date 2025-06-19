@@ -4,21 +4,18 @@ from .auth_controller import login_required
 from models.empleado_model import Empleado
 from models.solicitud_licencia_model import SolicitudLicencia
 from models.licencia_aprobada_model import LicenciaAprobada
-
 from models.comunicado_model import Comunicado
 
-# Crear Blueprint para el director
 director_bp = Blueprint("director", __name__, url_prefix="/director")
 
 @director_bp.before_request
 @login_required
 def verificar_acceso():
-    # Verificar si el usuario es director (rol_id == 1)
+    # Verificar si el usuario es director (rol_id == 2)
     if session.get("user_role") != 2:
         flash("Acceso denegado. Debes ser directoristrador para acceder.", "danger")
         return redirect(url_for("auth.login"))
 
-# Ruta principal del dashboard
 @director_bp.route("/")
 def dashboard():
     total_empleados = Empleado.query.count()

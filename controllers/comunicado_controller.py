@@ -21,7 +21,7 @@ def create():
         contenido = request.form['contenido']
         fecha_publicacion = Comunicado.convert_to_date(request.form.get('fecha_publicacion'))
         
-        usuario_id = session.get('user_id')  # <-- aquí se obtiene de la sesión
+        usuario_id = session.get('user_id') 
         
         if not usuario_id:
             flash("Debe iniciar sesión para crear un comunicado", "danger")
@@ -31,7 +31,6 @@ def create():
         comunicado.save()
         return redirect(url_for('comunicado.index'))
 
-    # No necesitas enviar usuarios a la vista porque ya no hay select
     return comunicado_view.create()
 
 @comunicado_bp.route('/edit/<int:id>', methods=['GET', 'POST'])
@@ -63,7 +62,7 @@ def delete(id):
         comunicado.delete()
     return redirect(url_for('comunicado.index'))
 
-#----------------------
+#----------------------Director-----------------
 
 @comunicado_director_bp.route('/')
 def index_director():

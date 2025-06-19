@@ -83,7 +83,7 @@ def delete(id):
         flash('Empleado no encontrado.', 'warning')
     return redirect(url_for('empleado.index'))
 
-#-------------director
+#-------------Director---------------
 @empleado_director_bp.route("/")
 def index_director():
     empleados = Empleado.get_all()

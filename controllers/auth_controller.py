@@ -2,13 +2,11 @@ from flask import Blueprint, redirect, url_for, request, session, flash
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime
 from functools import wraps
-
 from models.usuario_model import Usuario
 from models.empleado_model import Empleado 
 from views.auth_view import render_login_form, render_register_form
 
 auth_bp = Blueprint("auth", __name__, url_prefix="/auth")
-
 
 def login_required(f):
     @wraps(f)
@@ -31,8 +29,8 @@ def register():
         telefono = request.form["telefono"]
         fecha_str = request.form["fecha_nacimiento"]
 
-        rol_id = 3  # Invitado por defecto
-        cargo_id = 1  # "Sin asignación"
+        rol_id = 3 
+        cargo_id = 1 
 
         # Validar campos obligatorios
         if not username or not password or not email or not ci:
@@ -82,7 +80,6 @@ def register():
         return redirect(url_for("auth.login"))
 
     return render_register_form()
-
 
 @auth_bp.route("/login", methods=["GET", "POST"])
 def login():

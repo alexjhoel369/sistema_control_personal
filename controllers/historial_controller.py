@@ -1,5 +1,3 @@
-# Controlador actualizado: historial_controller.py
-
 from flask import request, redirect, url_for, Blueprint, jsonify
 from models.historial_model import Historial
 from models.empleado_model import Empleado
@@ -9,7 +7,6 @@ from datetime import datetime
 
 historial_bp = Blueprint('historial', __name__, url_prefix='/historiales')
 historial_director_bp = Blueprint('historial_director', __name__, url_prefix='/director/historiales')
-
 
 @historial_bp.route('/')
 def index():
@@ -29,7 +26,7 @@ def create():
         fecha_inicio = datetime.strptime(request.form['fecha_inicio'], '%Y-%m-%d').date()
         fecha_fin_str = request.form.get('fecha_fin')
         fecha_fin = datetime.strptime(fecha_fin_str, '%Y-%m-%d').date() if fecha_fin_str else None
-        usuario_id = 1  # Usuario admin por defecto
+        usuario_id = 1 
 
         historial = Historial(empleado_id, cargo, fecha_inicio, fecha_fin)
         historial.usuario_id = usuario_id
@@ -79,8 +76,8 @@ def delete(id):
         historial.delete()
     return redirect(url_for('historial.index'))
 
+# --------------------- Empleado ---------------------
 
-# Ruta para imprimir el historial laboral con todos los datos relacionados (Admin)
 @historial_bp.route('/imprimir/<int:empleado_id>')
 def imprimir_historial(empleado_id):
     empleado = Empleado.get_by_id(empleado_id)
@@ -95,7 +92,6 @@ def imprimir_historial(empleado_id):
     licencias_aprobadas=empleado.licencias_aprobadas,
     solicitudes_licencia=empleado.solicitudes_licencia
 )
-
 
 @historial_bp.route('/empleado/<int:empleado_id>')
 def get_empleado_json(empleado_id):
@@ -114,7 +110,6 @@ def get_empleado_json(empleado_id):
         'usuarios': [empleado.usuarios.username] if empleado.usuarios else []
     }
     return jsonify(data)
-
 
 # --------------------- DIRECTOR ---------------------
 @historial_director_bp.route('/')

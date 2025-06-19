@@ -45,8 +45,7 @@ def edit(id):
             empleado_id=empleado_id
         )
         return redirect(url_for('usuario.index'))
-
-    # Enviar empleados y roles para el formulario
+    
     empleados = Empleado.get_all()
     roles = Rol.get_all()
     return usuario_view.edit(usuario, empleados, roles)

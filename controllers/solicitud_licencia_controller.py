@@ -19,7 +19,7 @@ def index():
 @solicitud_licencia_bp.route('/create', methods=['GET', 'POST'])
 def create():
     if request.method == 'POST':
-        fecha_solicitud = date.today()  # Automáticamente hoy
+        fecha_solicitud = date.today() 
         fecha_inicio = datetime.strptime(request.form['fecha_inicio'], '%Y-%m-%d').date()
         fecha_fin = datetime.strptime(request.form['fecha_fin'], '%Y-%m-%d').date()
         motivo = request.form['motivo']
@@ -36,7 +36,7 @@ def create():
         from models.licencia_aprobada_model import LicenciaAprobada
         licencia = LicenciaAprobada(
             empleado_id=empleado_id,
-            solicitud_licencia_id=solicitud.id,  # <-- Aquí va el ID de la solicitud creada
+            solicitud_licencia_id=solicitud.id,
             estado="Pendiente"
         )
         licencia.save()
@@ -88,7 +88,6 @@ def delete(id):
 def index_director():
     solicitudes = SolicitudLicencia.get_all()
 
-    # Agregar atributo temporal de días de permiso
     for solicitud in solicitudes:
         if solicitud.fecha_inicio and solicitud.fecha_fin:
             solicitud.dias_permiso = (solicitud.fecha_fin - solicitud.fecha_inicio).days + 1
@@ -163,7 +162,6 @@ def index_personal():
 
     solicitudes = SolicitudLicencia.query.filter_by(empleado_id=usuario.empleado_id).all()
     
-    # Cálculo de días (opcional)
     for solicitud in solicitudes:
         if solicitud.fecha_inicio and solicitud.fecha_fin:
             solicitud.dias_permiso = (solicitud.fecha_fin - solicitud.fecha_inicio).days + 1
@@ -203,7 +201,6 @@ def create_personal():
         )
         solicitud.save()
 
-        # Crear licencia aprobada automáticamente con estado "Pendiente"
         from models.licencia_aprobada_model import LicenciaAprobada
         licencia = LicenciaAprobada(
             empleado_id=usuario.empleado_id,
@@ -235,7 +232,6 @@ def edit_personal(id):
     if not solicitud:
         return "Solicitud no encontrada", 404
 
-    # Validar que la solicitud pertenece al empleado del usuario actual
     if solicitud.empleado_id != usuario.empleado_id:
         flash("No tienes permiso para editar esta solicitud.", "danger")
         return redirect(url_for('solicitud_licencia_personal.index_personal'))
@@ -252,7 +248,6 @@ def edit_personal(id):
             fecha_inicio=fecha_inicio,
             fecha_fin=fecha_fin,
             motivo=motivo,
-            # No cambiar empleado_id
             tipo_licencia_id=tipo_licencia_id
         )
         return redirect(url_for('solicitud_licencia_personal.index_personal'))

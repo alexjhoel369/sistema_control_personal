@@ -11,13 +11,13 @@ from datetime import date
 # Crear Blueprint para el administrador
 admin_bp = Blueprint("admin", __name__, url_prefix="/admin")
 
-#@admin_bp.before_request
-#@login_required
-#def verificar_acceso():
+@admin_bp.before_request
+@login_required
+def verificar_acceso():
     # Verificar si el usuario es administrador (rol_id == 1)
-#    if session.get("user_role") != 1:
-#        flash("Acceso denegado. Debes ser administrador para acceder.", "danger")
-#        return redirect(url_for("auth.login"))
+    if session.get("user_role") != 1:
+        flash("Acceso denegado. Debes ser administrador para acceder.", "danger")
+        return redirect(url_for("auth.login"))
 
 # Ruta principal del dashboard
 @admin_bp.route("/")
