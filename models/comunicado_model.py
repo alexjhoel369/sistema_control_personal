@@ -51,4 +51,4 @@ class Comunicado(db.Model):
         try:
             return datetime.strptime(date_str, '%Y-%m-%d').date()
         except (ValueError, TypeError):
-            return None  # o return date.today() si prefieres usar la fecha actual como predeterminada
+            return None 

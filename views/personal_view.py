@@ -20,7 +20,7 @@ def dashboard(licencias_pendientes=0):
         flash("Empleado no encontrado.", "danger")
         return redirect(url_for("auth.login"))
 
-    rol_usuario = usuario.rol.rol.strip().lower()  # Para evitar errores con espacios o mayúsculas
+    rol_usuario = usuario.rol.rol.strip().lower() 
 
     return render_template("personal/dashboard.html",
                            licencias_pendientes=licencias_pendientes,
@@ -88,4 +88,3 @@ def ver_historial_asistencia():
 
     return render_template("personal/asistencia/historial.html", historial=historial)
 
-# ---------------------- PERSONAL ----------------------
