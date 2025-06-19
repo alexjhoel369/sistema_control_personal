@@ -12,8 +12,12 @@
 
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #f5f7fa;
-  color: #333;
+  background-image: url('../images/background.jpg'); /* Asignar tu imagen aquí */
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: center;
+  color: #f3f3f3;
 }
 
 /* Navbar personalizado */
@@ -23,6 +27,10 @@ body {
 
 .navbar-brand img {
   transition: transform 0.3s ease;
+  height: 50px;
+  width: 50px;
+  object-fit: cover;
+  border-radius: 50%;
 }
 
 .navbar-brand:hover img {
@@ -35,6 +43,7 @@ body {
   border-radius: 10px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
   transition: all 0.3s ease;
+  background-color: rgba(255, 255, 255, 0.9);
 }
 
 .card-hover:hover {
@@ -51,6 +60,8 @@ body {
   border-radius: 8px;
   transition: all 0.3s ease;
   border: 1px solid #e9ecef;
+  background-color: white;
+  backdrop-filter: blur(2px);
 }
 
 .btn-module:hover {
@@ -62,6 +73,18 @@ body {
 
 .btn-module:hover i {
   color: white !important;
+}
+
+/* Logout mejorado */
+.btn-outline-danger {
+  font-weight: bold;
+  transition: 0.3s;
+  border-radius: 5px;
+}
+
+.btn-outline-danger:hover {
+  background-color: #dc3545;
+  color: white;
 }
 
 /* Efectos hover */
@@ -84,7 +107,6 @@ body {
   .navbar-brand span {
     display: none;
   }
-  
   .card-hover:hover {
     transform: none;
   }
@@ -100,7 +122,7 @@ body {
   animation: fadeIn 0.5s ease-out;
 }
 
-/* Estilos para el tema oscuro */
+/* Tema oscuro */
 [data-bs-theme="dark"] body {
   background-color: #1a1a1a;
   color: #f8f9fa;
